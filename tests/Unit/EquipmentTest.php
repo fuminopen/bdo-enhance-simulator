@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class EquipmentTest extends TestCase
 {
     /**
-     * A basic unit test example.
+     * test_an_equipment_can_be_enhanced
      *
      * @return void
      */
@@ -21,5 +21,21 @@ class EquipmentTest extends TestCase
         $equipment->enhance();
 
         $this->assertSame($currentLevel + 1, $equipment->getCurrentLevel());
+    }
+
+    /**
+     * test_equipment_enhancement_can_be_failed
+     *
+     * @return void
+     */
+    public function test_equipment_enhancement_can_be_failed()
+    {
+        $equipment = new Equipment(1);
+
+        $currentLevel = $equipment->getCurrentLevel();
+
+        $equipment->enhanceFailed();
+
+        $this->assertSame($currentLevel - 1, $equipment->getCurrentLevel());
     }
 }
