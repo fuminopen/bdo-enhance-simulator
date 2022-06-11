@@ -41,4 +41,16 @@ final class Equipment
 
         return $this->currentLevel;
     }
+
+    /**
+     * enhanceFailed
+     *
+     * @return int
+     */
+    public function enhanceFailed(): int
+    {
+        $this->currentLevel--;
+
+        return $this->currentLevel;
+    }
 }
