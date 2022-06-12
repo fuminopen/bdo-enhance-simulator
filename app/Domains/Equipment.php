@@ -2,12 +2,10 @@
 
 namespace App\Domains;
 
-use InvalidArgumentException;
-
 final class Equipment
 {
     /**
-     * @var int
+     * @var EnhancementLevel
      */
     private EnhancementLevel $currentLevel;
 
@@ -29,7 +27,7 @@ final class Equipment
      */
     public function getCurrentLevel(): int
     {
-        return $this->currentLevel;
+        return $this->currentLevel->getLevel();
     }
 
     /**
@@ -39,11 +37,11 @@ final class Equipment
      */
     public function enhance(): int
     {
-        if ($this->currentLevel < 20) {
-            $this->currentLevel++;
+        if ($this->currentLevel->getLevel() < EnhancementLevel::MAXIMUM_LEVEL) {
+            $this->currentLevel = new EnhancementLevel($this->currentLevel->getLevel() + 1);
         }
 
-        return $this->currentLevel;
+        return $this->currentLevel->getLevel();
     }
 
     /**
@@ -53,10 +51,10 @@ final class Equipment
      */
     public function enhanceFailed(): int
     {
-        if ($this->currentLevel > 0){
-            $this->currentLevel--;
+        if ($this->currentLevel->getLevel() > EnhancementLevel::MINIMUM_LEVEL) {
+            $this->currentLevel = new EnhancementLevel($this->currentLevel->getLevel() - 1);
         }
 
-        return $this->currentLevel;
+        return $this->currentLevel->getLevel();
     }
 }

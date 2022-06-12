@@ -6,9 +6,9 @@ use InvalidArgumentException;
 
 final class EnhancementLevel
 {
-    private const MINIMUM_LEVEL = 0;
+    public const MINIMUM_LEVEL = 0;
 
-    private const MAXIMUM_LEVEL = 20;
+    public const MAXIMUM_LEVEL = 20;
 
     /**
      * @var int
