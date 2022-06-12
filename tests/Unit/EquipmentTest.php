@@ -83,4 +83,11 @@ class EquipmentTest extends TestCase
 
         $equipment = new Equipment(-1);
     }
+
+    public function test_maximum_initial_enhancement_level_must_be_20()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $equipment = new Equipment(21);
+    }
 }
