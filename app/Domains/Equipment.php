@@ -2,6 +2,8 @@
 
 namespace App\Domains;
 
+use InvalidArgumentException;
+
 final class Equipment
 {
     /**
@@ -17,6 +19,10 @@ final class Equipment
      */
     public function __construct(int $currentLevel = 0)
     {
+        if ($currentLevel < 0) {
+            throw new InvalidArgumentException('Initial enhancement level must not be lower than 0.');
+        }
+
         $this->currentLevel = $currentLevel;
     }
 
