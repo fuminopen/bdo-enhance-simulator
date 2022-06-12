@@ -41,6 +41,16 @@ final class EnhancementLevel
     }
 
     /**
+     * atMaximumLevel
+     *
+     * @return bool
+     */
+    public function atMaximumLevel(): bool
+    {
+        return $this->level === self::MAXIMUM_LEVEL;
+    }
+
+    /**
      * validate if initial enhancement level assigned is valid.
      *
      * @param  int $level
