@@ -38,4 +38,20 @@ class EquipmentTest extends TestCase
 
         $this->assertSame($currentLevel - 1, $equipment->getCurrentLevel());
     }
+
+    /**
+     * test_minimum_enhancement_level_is_zero
+     *
+     * @return void
+     */
+    public function test_minimum_enhancement_level_is_zero()
+    {
+        $equipment = new Equipment(0);
+
+        $currentLevel = $equipment->getCurrentLevel();
+
+        $equipment->enhanceFailed();
+
+        $this->assertSame($currentLevel, $equipment->getCurrentLevel());
+    }
 }
