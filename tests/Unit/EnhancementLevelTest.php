@@ -31,4 +31,16 @@ class EnhancementLevelTest extends TestCase
 
         new EnhancementLevel(21);
     }
+
+    /**
+     * test_enhancement_level_class_can_output_its_level
+     *
+     * @return void
+     */
+    public function test_enhancement_level_class_can_output_its_level()
+    {
+        $level = new EnhancementLevel(20);
+
+        $this->assertSame(20, $level->getLevel());
+    }
 }

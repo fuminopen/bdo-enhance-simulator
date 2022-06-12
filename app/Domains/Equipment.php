@@ -9,7 +9,7 @@ final class Equipment
     /**
      * @var int
      */
-    private int $currentLevel;
+    private EnhancementLevel $currentLevel;
 
     /**
      * __construct
@@ -19,11 +19,7 @@ final class Equipment
      */
     public function __construct(int $currentLevel = 0)
     {
-        if ($currentLevel < 0 || $currentLevel > 20) {
-            throw new InvalidArgumentException('Initial enhancement level must not be lower than 0.');
-        }
-
-        $this->currentLevel = $currentLevel;
+        $this->currentLevel = new EnhancementLevel($currentLevel);
     }
 
     /**
