@@ -79,4 +79,16 @@ class EnhancementLevelTest extends TestCase
 
         $this->assertTrue($level->atMaximumLevel());
     }
+
+    /**
+     * test_enhancement_level_class_knows_if_itself_is_at_minimum_level
+     *
+     * @return void
+     */
+    public function test_enhancement_level_class_knows_if_itself_is_at_minimum_level()
+    {
+        $level = new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL);
+
+        $this->assertTrue($level->atMinimumLevel());
+    }
 }

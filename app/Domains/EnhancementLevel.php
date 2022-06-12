@@ -21,7 +21,7 @@ final class EnhancementLevel
      * @param  int $level
      * @return void
      */
-    public function __construct(int $level = 0)
+    public function __construct(int $level = self::MINIMUM_LEVEL)
     {
         if (! $this->validInitialLevel($level)) {
             throw new InvalidArgumentException('Initial enhancement level is invalid.');
