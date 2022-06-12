@@ -51,6 +51,16 @@ final class EnhancementLevel
     }
 
     /**
+     * atMaximumLevel
+     *
+     * @return bool
+     */
+    public function atMinimumLevel(): bool
+    {
+        return $this->level === self::MINIMUM_LEVEL;
+    }
+
+    /**
      * validate if initial enhancement level assigned is valid.
      *
      * @param  int $level
