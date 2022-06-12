@@ -35,7 +35,7 @@ final class Equipment
      *
      * @return int
      */
-    public function enhance(): int
+    public function enhanceSucceed(): int
     {
         if ($this->currentLevel->getLevel() < EnhancementLevel::MAXIMUM_LEVEL) {
             $this->currentLevel = new EnhancementLevel($this->currentLevel->getLevel() + 1);

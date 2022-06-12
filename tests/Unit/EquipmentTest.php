@@ -18,7 +18,7 @@ class EquipmentTest extends TestCase
 
         $currentLevel = $equipment->getCurrentLevel();
 
-        $equipment->enhance();
+        $equipment->enhanceSucceed();
 
         $this->assertSame($currentLevel + 1, $equipment->getCurrentLevel());
     }
@@ -66,7 +66,7 @@ class EquipmentTest extends TestCase
 
         $currentLevel = $equipment->getCurrentLevel();
 
-        $equipment->enhance();
+        $equipment->enhanceSucceed();
 
         $this->assertSame($currentLevel, $equipment->getCurrentLevel());
     }

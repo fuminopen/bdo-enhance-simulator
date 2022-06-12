@@ -17,7 +17,7 @@ class EnhancementLevelTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        new EnhancementLevel(-1);
+        new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL - 1);
     }
 
     /**
@@ -27,7 +27,7 @@ class EnhancementLevelTest extends TestCase
      */
     public function test_minimum_initial_enhancement_level_is_0()
     {
-        $level = new EnhancementLevel(0);
+        $level = new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL);
 
         $this->assertTrue(true);
     }
@@ -41,7 +41,7 @@ class EnhancementLevelTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        new EnhancementLevel(21);
+        new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL + 1);
     }
 
     /**
@@ -51,7 +51,7 @@ class EnhancementLevelTest extends TestCase
      */
     public function test_maximum_initial_enhancement_level_is_20()
     {
-        $level = new EnhancementLevel(20);
+        $level = new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL);
 
         $this->assertTrue(true);
     }
@@ -63,8 +63,20 @@ class EnhancementLevelTest extends TestCase
      */
     public function test_enhancement_level_class_can_output_its_level()
     {
-        $level = new EnhancementLevel(20);
+        $level = new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL);
 
-        $this->assertSame(20, $level->getLevel());
+        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL, $level->getLevel());
+    }
+
+    /**
+     * test_enhancement_level_class_knows_if_itself_is_at_maximum_level
+     *
+     * @return void
+     */
+    public function test_enhancement_level_class_knows_if_itself_is_at_maximum_level()
+    {
+        $level = new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL);
+
+        $this->assertTrue($level->atMaximumLevel());
     }
 }
