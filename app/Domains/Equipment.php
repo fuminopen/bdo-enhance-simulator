@@ -49,7 +49,9 @@ final class Equipment
      */
     public function enhanceFailed(): int
     {
-        $this->currentLevel--;
+        if ($this->currentLevel > 0){
+            $this->currentLevel--;
+        }
 
         return $this->currentLevel;
     }
