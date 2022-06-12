@@ -37,7 +37,9 @@ final class Equipment
      */
     public function enhance(): int
     {
-        $this->currentLevel++;
+        if ($this->currentLevel < 20) {
+            $this->currentLevel++;
+        }
 
         return $this->currentLevel;
     }
