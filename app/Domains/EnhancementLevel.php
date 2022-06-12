@@ -31,6 +31,16 @@ final class EnhancementLevel
     }
 
     /**
+     * getLevel
+     *
+     * @return int
+     */
+    public function getLevel(): int
+    {
+        return $this->level;
+    }
+
+    /**
      * validate if initial enhancement level assigned is valid.
      *
      * @param  int $level
@@ -38,6 +48,6 @@ final class EnhancementLevel
      */
     private function validInitialLevel(int $level): bool
     {
-        return ($level > self::MINIMUM_LEVEL) && ($level < self::MAXIMUM_LEVEL);
+        return ($level >= self::MINIMUM_LEVEL) && ($level <= self::MAXIMUM_LEVEL);
     }
 }
