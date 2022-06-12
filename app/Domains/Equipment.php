@@ -19,7 +19,7 @@ final class Equipment
      */
     public function __construct(int $currentLevel = 0)
     {
-        if ($currentLevel < 0) {
+        if ($currentLevel < 0 || $currentLevel > 20) {
             throw new InvalidArgumentException('Initial enhancement level must not be lower than 0.');
         }
 
