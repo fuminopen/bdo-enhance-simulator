@@ -54,4 +54,20 @@ class EquipmentTest extends TestCase
 
         $this->assertSame($currentLevel, $equipment->getCurrentLevel());
     }
+
+    /**
+     * test_maximum_enhancement_level_is_twenty
+     *
+     * @return void
+     */
+    public function test_maximum_enhancement_level_is_twenty()
+    {
+        $equipment = new Equipment(20);
+
+        $currentLevel = $equipment->getCurrentLevel();
+
+        $equipment->enhance();
+
+        $this->assertSame($currentLevel, $equipment->getCurrentLevel());
+    }
 }
