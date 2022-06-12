@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Domains\EnhancementLevel;
 use App\Domains\Equipment;
 use PHPUnit\Framework\TestCase;
 
@@ -18,7 +19,7 @@ class EquipmentTest extends TestCase
 
         $currentLevel = $equipment->getCurrentLevel();
 
-        $equipment->enhanceSucceed();
+        $equipment->enhancementSucceed();
 
         $this->assertSame($currentLevel + 1, $equipment->getCurrentLevel());
     }
@@ -34,7 +35,7 @@ class EquipmentTest extends TestCase
 
         $currentLevel = $equipment->getCurrentLevel();
 
-        $equipment->enhanceFailed();
+        $equipment->enhancementFailed();
 
         $this->assertSame($currentLevel - 1, $equipment->getCurrentLevel());
     }
@@ -46,11 +47,11 @@ class EquipmentTest extends TestCase
      */
     public function test_minimum_enhancement_level_is_zero()
     {
-        $equipment = new Equipment(0);
+        $equipment = new Equipment(EnhancementLevel::MINIMUM_LEVEL);
 
         $currentLevel = $equipment->getCurrentLevel();
 
-        $equipment->enhanceFailed();
+        $equipment->enhancementFailed();
 
         $this->assertSame($currentLevel, $equipment->getCurrentLevel());
     }
@@ -60,14 +61,15 @@ class EquipmentTest extends TestCase
      *
      * @return void
      */
-    public function test_maximum_enhancement_level_is_twenty()
+    public function test_enhancement_level_does_not_exceeds_its_maximum()
     {
-        $equipment = new Equipment(20);
+        $equipment = new Equipment(EnhancementLevel::MAXIMUM_LEVEL);
 
         $currentLevel = $equipment->getCurrentLevel();
 
-        $equipment->enhanceSucceed();
+        $equipment->enhancementSucceed();
 
         $this->assertSame($currentLevel, $equipment->getCurrentLevel());
     }
+
 }

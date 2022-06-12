@@ -35,9 +35,9 @@ final class Equipment
      *
      * @return int
      */
-    public function enhanceSucceed(): int
+    public function enhancementSucceed(): int
     {
-        if ($this->currentLevel->getLevel() < EnhancementLevel::MAXIMUM_LEVEL) {
+        if (! $this->currentLevel->atMaximumLevel()) {
             $this->currentLevel = new EnhancementLevel($this->currentLevel->getLevel() + 1);
         }
 
@@ -49,9 +49,9 @@ final class Equipment
      *
      * @return int
      */
-    public function enhanceFailed(): int
+    public function enhancementFailed(): int
     {
-        if ($this->currentLevel->getLevel() > EnhancementLevel::MINIMUM_LEVEL) {
+        if (! $this->currentLevel->atMinimumLevel()) {
             $this->currentLevel = new EnhancementLevel($this->currentLevel->getLevel() - 1);
         }
 
