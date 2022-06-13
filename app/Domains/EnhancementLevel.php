@@ -61,6 +61,30 @@ final class EnhancementLevel
     }
 
     /**
+     * levelUp
+     *
+     * @return EnhancementLevel
+     */
+    public function levelUp(): EnhancementLevel
+    {
+        return new self($this->nextLevel());
+    }
+
+    /**
+     * nextLevel
+     *
+     * @return int
+     */
+    public function nextLevel(): int
+    {
+        if ($this->level === self::MAXIMUM_LEVEL) {
+            return self::MAXIMUM_LEVEL;
+        }
+
+        return $this->level + 1;
+    }
+
+    /**
      * validate if initial enhancement level assigned is valid.
      *
      * @param  int $level
