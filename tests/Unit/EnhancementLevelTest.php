@@ -162,7 +162,7 @@ class EnhancementLevelTest extends TestCase
     {
         $minimumLevel = new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL);
 
-        $newLevel = $minimumLevel->levelUp();
+        $newLevel = $minimumLevel->levelDown();
 
         $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $newLevel->getLevel());
     }

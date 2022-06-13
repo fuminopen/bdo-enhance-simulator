@@ -71,17 +71,41 @@ final class EnhancementLevel
     }
 
     /**
+     * levelDown
+     *
+     * @return EnhancementLevel
+     */
+    public function levelDown(): EnhancementLevel
+    {
+        return new self($this->previousLevel());
+    }
+
+    /**
      * nextLevel
      *
      * @return int
      */
-    public function nextLevel(): int
+    private function nextLevel(): int
     {
         if ($this->level === self::MAXIMUM_LEVEL) {
             return self::MAXIMUM_LEVEL;
         }
 
         return $this->level + 1;
+    }
+
+    /**
+     * previousLevel
+     *
+     * @return int
+     */
+    private function previousLevel(): int
+    {
+        if ($this->level === self::MINIMUM_LEVEL) {
+            return self::MINIMUM_LEVEL;
+        }
+
+        return $this->level -1;
     }
 
     /**
