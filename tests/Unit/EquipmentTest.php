@@ -6,8 +6,25 @@ use App\Domains\EnhancementLevel;
 use App\Domains\Equipment;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * 1. equipment is level 0 at default
+ * 1. equipment can be enhanced
+ * 2. enhancement succeeds or fails
+ * 3. level ups when succeed
+ * 4. level downs when failed
+ */
 class EquipmentTest extends TestCase
 {
+    public function test_level_of_equipment_is_0_at_default()
+    {
+        $equipment = new Equipment();
+
+        $this->assertSame(
+            (new EnhancementLevel())->getLevel(),
+            $equipment->getCurrentLevel()->getLevel()
+        );
+    }
+
     /**
      * test_an_equipment_can_be_enhanced
      *

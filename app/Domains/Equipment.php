@@ -12,22 +12,24 @@ final class Equipment
     /**
      * __construct
      *
-     * @param  int $currentLevel
+     * @param  EnhancementLevel $currentLevel
      * @return void
      */
-    public function __construct(int $currentLevel = 0)
-    {
-        $this->currentLevel = new EnhancementLevel($currentLevel);
+    public function __construct(
+        EnhancementLevel $level =
+            new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL)
+    ) {
+        $this->currentLevel = $level;
     }
 
     /**
      * getCurrentLevel
      *
-     * @return int
+     * @return EnhancementLevel
      */
-    public function getCurrentLevel(): int
+    public function getCurrentLevel(): EnhancementLevel
     {
-        return $this->currentLevel->getLevel();
+        return $this->currentLevel;
     }
 
     /**
