@@ -138,4 +138,32 @@ class EnhancementLevelTest extends TestCase
 
         $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL, $newLevel->getLevel());
     }
+
+    /**
+     * TODO : 4
+     *
+     * @return void
+     */
+    public function test_lower_level_instance_returned()
+    {
+        $maximumLevel = new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL);
+
+        $newLevel = $maximumLevel->levelDown();
+
+        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL - 1, $newLevel->getLevel());
+    }
+
+    /**
+     * TODO : 4
+     *
+     * @return void
+     */
+    public function test_minimum_level_no_longer_level_downs()
+    {
+        $minimumLevel = new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL);
+
+        $newLevel = $minimumLevel->levelUp();
+
+        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $newLevel->getLevel());
+    }
 }
