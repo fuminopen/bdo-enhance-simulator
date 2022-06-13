@@ -110,4 +110,18 @@ class EnhancementLevelTest extends TestCase
 
         $this->assertFalse($notMinimumLevel->atMinimumLevel());
     }
+
+    /**
+     * TODO : 4
+     *
+     * @return void
+     */
+    public function test_higher_level_instance_returned()
+    {
+        $minimumLevel = new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL);
+
+        $newLevel = $minimumLevel->levelUp();
+
+        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL + 1, $newLevel->getLevel());
+    }
 }
