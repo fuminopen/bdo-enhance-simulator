@@ -8,13 +8,16 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * 1. equipment is level 0 at default
- * 1. equipment can be enhanced
- * 2. enhancement succeeds or fails
- * 3. level ups when succeed
- * 4. level downs when failed
+ * 2. equipment can be enhanced
+ * 3. enhancement succeeds or fails
+ * 4. level ups when succeed
+ * 5. level downs when failed
  */
 class EquipmentTest extends TestCase
 {
+    /**
+     * TODO : 1
+     */
     public function test_level_of_equipment_is_0_at_default()
     {
         $equipment = new Equipment();
@@ -26,11 +29,11 @@ class EquipmentTest extends TestCase
     }
 
     /**
-     * test_an_equipment_can_be_enhanced
+     * TODO : 4
      *
      * @return void
      */
-    public function test_an_equipment_can_be_enhanced()
+    public function test_an_equipment_levels_up_when_enhancement_succeed()
     {
         $equipment = new Equipment();
 
@@ -38,55 +41,28 @@ class EquipmentTest extends TestCase
 
         $equipment->enhancementSucceed();
 
-        $this->assertSame($currentLevel + 1, $equipment->getCurrentLevel());
+        $this->assertSame(
+            $currentLevel->levelUp()->getLevel(),
+            $equipment->getCurrentLevel()->getLevel()
+        );
     }
 
     /**
-     * test_equipment_enhancement_can_be_failed
+     * TODO : 5
      *
      * @return void
      */
-    public function test_equipment_enhancement_can_be_failed()
+    public function test_an_equipment_levels_down_when_enhancement_failed()
     {
-        $equipment = new Equipment(1);
+        $equipment = new Equipment(new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL));
 
         $currentLevel = $equipment->getCurrentLevel();
 
         $equipment->enhancementFailed();
 
-        $this->assertSame($currentLevel - 1, $equipment->getCurrentLevel());
+        $this->assertSame(
+            $currentLevel->levelDown()->getLevel(),
+            $equipment->getCurrentLevel()->getLevel()
+        );
     }
-
-    /**
-     * test_minimum_enhancement_level_is_zero
-     *
-     * @return void
-     */
-    public function test_minimum_enhancement_level_is_zero()
-    {
-        $equipment = new Equipment(EnhancementLevel::MINIMUM_LEVEL);
-
-        $currentLevel = $equipment->getCurrentLevel();
-
-        $equipment->enhancementFailed();
-
-        $this->assertSame($currentLevel, $equipment->getCurrentLevel());
-    }
-
-    /**
-     * test_maximum_enhancement_level_is_twenty
-     *
-     * @return void
-     */
-    public function test_enhancement_level_does_not_exceeds_its_maximum()
-    {
-        $equipment = new Equipment(EnhancementLevel::MAXIMUM_LEVEL);
-
-        $currentLevel = $equipment->getCurrentLevel();
-
-        $equipment->enhancementSucceed();
-
-        $this->assertSame($currentLevel, $equipment->getCurrentLevel());
-    }
-
 }
