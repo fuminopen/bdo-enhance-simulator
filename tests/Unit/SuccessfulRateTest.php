@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,12 +15,50 @@ use PHPUnit\Framework\TestCase;
 class SuccessfulRateTest extends TestCase
 {
     /**
-     * A basic unit test example.
+     * TODO : 2
      *
      * @return void
      */
-    public function test_example()
+    public function test_rate_cannot_be_lower_than_minimum()
     {
-        $this->assertTrue(true);
+        $this->expectException(InvalidArgumentException::class);
+
+        new SuccessfulRate(0);
+    }
+
+    /**
+     * TODO : 2
+     *
+     * @return void
+     */
+    public function test_rate_can_be_instantiated_with_minimum()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new SuccessfulRate(SuccessfulRate::MINIMUM);
+    }
+
+    /**
+     * TODO : 2
+     *
+     * @return void
+     */
+    public function test_rate_cannot_exceeds_maximum()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new SuccessfulRate(1.01);
+    }
+
+    /**
+     * TODO : 2
+     *
+     * @return void
+     */
+    public function test_rate_can_be_instantiated_with_maximum()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new SuccessfulRate(SuccessfulRate::MAXIMUM);
     }
 }
