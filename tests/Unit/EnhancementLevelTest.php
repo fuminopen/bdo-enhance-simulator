@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Domains\EnhancementLevel;
+use App\ValueObjects\EnhancementLevel;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Domains\EnhancementLevel;
-use App\Domains\Equipment;
+use App\ValueObjects\EnhancementLevel;
+use App\ValueObjects\Equipment;
 use PHPUnit\Framework\TestCase;
 
 /**

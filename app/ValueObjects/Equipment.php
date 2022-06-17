@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains;
+namespace App\ValueObjects;
 
 final class Equipment
 {
