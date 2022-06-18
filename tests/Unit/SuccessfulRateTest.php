@@ -16,6 +16,28 @@ use PHPUnit\Framework\TestCase;
 class SuccessfulRateTest extends TestCase
 {
     /**
+     * TODO : 1
+     */
+    public function test_rate_is_float_with_second_decimal_place()
+    {
+        $rate = new SuccessfulRate(0.5555);
+
+        $this->assertSame(0.56, $rate->rate);
+
+        $rate = new SuccessfulRate(0.54444);
+
+        $this->assertSame(0.54, $rate->rate);
+
+        $rate = new SuccessfulRate(0.011111);
+
+        $this->assertSame(SuccessfulRate::MINIMUM, $rate->rate);
+
+        $rate = new SuccessfulRate(0.999999999);
+
+        $this->assertSame(SuccessfulRate::MAXIMUM, $rate->rate);
+    }
+
+    /**
      * TODO : 2
      *
      * @return void
