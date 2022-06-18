@@ -13,12 +13,12 @@ class SuccessfulRate
     /**
      * @var float
      */
-    private float $rate;
+    public readonly float $rate;
 
     /**
      * __construct
      *
-     * @param  mixed $rate
+     * @param  float $rate
      * @return void
      */
     public function __construct(float $rate)
@@ -27,13 +27,24 @@ class SuccessfulRate
             throw new InvalidArgumentException('Given rate is invalid.');
         }
 
-        $this->rate = $rate;
+        $this->rate = $this->formatRate($rate);
+    }
+
+    /**
+     * formatRate
+     *
+     * @param  float $rate
+     * @return float
+     */
+    private function formatRate(float $rate): float
+    {
+        return round($rate, 2);
     }
 
     /**
      * assertInvalidRate
      *
-     * @param  mixed $rate
+     * @param  float $rate
      * @return bool
      */
     private function assertInvalidRate(float $rate): bool
