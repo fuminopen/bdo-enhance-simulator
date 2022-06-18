@@ -23,8 +23,8 @@ class EquipmentTest extends TestCase
         $equipment = new Equipment();
 
         $this->assertSame(
-            (new EnhancementLevel())->getLevel(),
-            $equipment->getCurrentLevel()->getLevel()
+            (new EnhancementLevel())->level,
+            $equipment->currentLevel->level
         );
     }
 
@@ -37,13 +37,13 @@ class EquipmentTest extends TestCase
     {
         $equipment = new Equipment();
 
-        $currentLevel = $equipment->getCurrentLevel();
+        $currentLevel = $equipment->currentLevel;
 
         $equipment->enhancementSucceed();
 
         $this->assertSame(
-            $currentLevel->levelUp()->getLevel(),
-            $equipment->getCurrentLevel()->getLevel()
+            $currentLevel->levelUp()->leve,
+            $equipment->currentLevel->level
         );
     }
 
@@ -56,13 +56,13 @@ class EquipmentTest extends TestCase
     {
         $equipment = new Equipment(new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL));
 
-        $currentLevel = $equipment->getCurrentLevel();
+        $currentLevel = $equipment->currentLevel;
 
         $equipment->enhancementFailed();
 
         $this->assertSame(
-            $currentLevel->levelDown()->getLevel(),
-            $equipment->getCurrentLevel()->getLevel()
+            $currentLevel->levelDown()->level,
+            $equipment->currentLevel->level
         );
     }
 }

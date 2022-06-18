@@ -13,7 +13,7 @@ final class EnhancementLevel
     /**
      * @var int
      */
-    private int $level;
+    public readonly int $level;
 
     /**
      * __construct
@@ -28,16 +28,6 @@ final class EnhancementLevel
         }
 
         $this->level = $level;
-    }
-
-    /**
-     * getLevel
-     *
-     * @return int
-     */
-    public function getLevel(): int
-    {
-        return $this->level;
     }
 
     /**

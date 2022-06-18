@@ -62,7 +62,7 @@ class SuccessfulRateTest extends TestCase
     }
 
     /**
-     * TODO : 2
+     * TODO : 3
      *
      * @return void
      */
@@ -74,7 +74,7 @@ class SuccessfulRateTest extends TestCase
     }
 
     /**
-     * TODO : 2
+     * TODO : 3
      *
      * @return void
      */

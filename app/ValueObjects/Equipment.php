@@ -7,7 +7,7 @@ final class Equipment
     /**
      * @var EnhancementLevel
      */
-    private EnhancementLevel $currentLevel;
+    public readonly EnhancementLevel $currentLevel;
 
     /**
      * __construct
@@ -23,16 +23,6 @@ final class Equipment
     }
 
     /**
-     * getCurrentLevel
-     *
-     * @return EnhancementLevel
-     */
-    public function getCurrentLevel(): EnhancementLevel
-    {
-        return $this->currentLevel;
-    }
-
-    /**
      * enhance
      *
      * @return int
@@ -40,10 +30,10 @@ final class Equipment
     public function enhancementSucceed(): int
     {
         if (! $this->currentLevel->atMaximumLevel()) {
-            $this->currentLevel = new EnhancementLevel($this->currentLevel->getLevel() + 1);
+            $this->currentLevel = new EnhancementLevel($this->currentLevel->level + 1);
         }
 
-        return $this->currentLevel->getLevel();
+        return $this->currentLevel->level;
     }
 
     /**
@@ -54,9 +44,9 @@ final class Equipment
     public function enhancementFailed(): int
     {
         if (! $this->currentLevel->atMinimumLevel()) {
-            $this->currentLevel = new EnhancementLevel($this->currentLevel->getLevel() - 1);
+            $this->currentLevel = new EnhancementLevel($this->currentLevel->level - 1);
         }
 
-        return $this->currentLevel->getLevel();
+        return $this->currentLevel->level;
     }
 }

@@ -72,11 +72,11 @@ class EnhancementLevelTest extends TestCase
     {
         $minimumLevel = new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL);
 
-        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $minimumLevel->getLevel());
+        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $minimumLevel->level);
 
         $maximumLevel = new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL);
 
-        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL, $maximumLevel->getLevel());
+        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL, $maximumLevel->level);
     }
 
     /**
@@ -122,7 +122,7 @@ class EnhancementLevelTest extends TestCase
 
         $newLevel = $minimumLevel->levelUp();
 
-        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL + 1, $newLevel->getLevel());
+        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL + 1, $newLevel->level);
     }
 
     /**
@@ -136,7 +136,7 @@ class EnhancementLevelTest extends TestCase
 
         $newLevel = $maximumLevel->levelUp();
 
-        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL, $newLevel->getLevel());
+        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL, $newLevel->level);
     }
 
     /**
@@ -150,7 +150,7 @@ class EnhancementLevelTest extends TestCase
 
         $newLevel = $maximumLevel->levelDown();
 
-        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL - 1, $newLevel->getLevel());
+        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL - 1, $newLevel->level);
     }
 
     /**
@@ -164,6 +164,6 @@ class EnhancementLevelTest extends TestCase
 
         $newLevel = $minimumLevel->levelDown();
 
-        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $newLevel->getLevel());
+        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $newLevel->level);
     }
 }
