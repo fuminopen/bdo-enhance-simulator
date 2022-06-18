@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\ValueObjects\SuccessfulRate;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -33,9 +34,9 @@ class SuccessfulRateTest extends TestCase
      */
     public function test_rate_can_be_instantiated_with_minimum()
     {
-        $this->expectException(InvalidArgumentException::class);
-
         new SuccessfulRate(SuccessfulRate::MINIMUM);
+
+        $this->assertTrue(true);
     }
 
     /**
@@ -57,8 +58,8 @@ class SuccessfulRateTest extends TestCase
      */
     public function test_rate_can_be_instantiated_with_maximum()
     {
-        $this->expectException(InvalidArgumentException::class);
-
         new SuccessfulRate(SuccessfulRate::MAXIMUM);
+
+        $this->assertTrue(true);
     }
 }
