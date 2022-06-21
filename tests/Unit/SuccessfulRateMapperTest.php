@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\ValueObjects\EnhancementLevel;
 use App\ValueObjects\Equipment;
 use App\ValueObjects\SuccessfulRate;
+use App\ValueObjects\SuccessfulRateMapper;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,7 +25,7 @@ class SuccessfulRateMapperTest extends TestCase
         // instantiate an equipment with minimum level
         $levelZeroEquipment = new Equipment(new EnhancementLevel());
 
-        $mapper = new SuccessfulRateMapper($equipment);
+        $mapper = new SuccessfulRateMapper($levelZeroEquipment);
 
         $this->assertSame(SuccessfulRate::MAXIMUM, $mapper->getRate());
     }
