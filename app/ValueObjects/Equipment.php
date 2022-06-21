@@ -25,28 +25,30 @@ final class Equipment
     /**
      * enhance
      *
-     * @return int
+     * @return Equipment
      */
-    public function enhancementSucceed(): int
+    public function enhancementSucceed(): Equipment
     {
         if (! $this->currentLevel->atMaximumLevel()) {
-            $this->currentLevel = new EnhancementLevel($this->currentLevel->level + 1);
+            $newLevel = new EnhancementLevel($this->currentLevel->levelUp()->level);
+            return new self($newLevel);
         }
 
-        return $this->currentLevel->level;
+        return $this;
     }
 
     /**
      * enhanceFailed
      *
-     * @return int
+     * @return Equipment
      */
-    public function enhancementFailed(): int
+    public function enhancementFailed(): Equipment
     {
         if (! $this->currentLevel->atMinimumLevel()) {
-            $this->currentLevel = new EnhancementLevel($this->currentLevel->level - 1);
+            $newLevel = new EnhancementLevel($this->currentLevel->levelDown()->level);
+            return new self($newLevel);
         }
 
-        return $this->currentLevel->level;
+        return $this;
     }
 }
