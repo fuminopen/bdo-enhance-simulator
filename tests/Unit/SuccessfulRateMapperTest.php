@@ -20,7 +20,7 @@ class SuccessfulRateMapperTest extends TestCase
      *
      * @return void
      */
-    public function test_successful_rate_is_at_maximum_until_certain_level()
+    public function test_successful_rate_is_at_maximum_until_threshold()
     {
         // instantiate an equipment with minimum level
         $levelZeroEquipment = new Equipment(new EnhancementLevel());
@@ -28,5 +28,19 @@ class SuccessfulRateMapperTest extends TestCase
         $mapper = new SuccessfulRateMapper($levelZeroEquipment);
 
         $this->assertSame(SuccessfulRate::MAXIMUM, $mapper->getRate());
+    }
+
+    /**
+     * TODO 1
+     *
+     * @return void
+     */
+    public function test_successful_rate_starts_dropping_after_threshold()
+    {
+        $equipmentBeyondThreshold = new Equipment(new EnhancementLevel(Equipment::THRESHOLD));
+
+        $mapper = new SuccessfulRateMapper($equipmentBeyondThreshold);
+
+        $this->assertTrue(SuccessfulRate::MAXIMUM > $mapper->getRate());
     }
 }
