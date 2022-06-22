@@ -37,6 +37,7 @@ class SuccessfulRateMapperTest extends TestCase
      */
     public function test_successful_rate_starts_dropping_after_threshold()
     {
+        // instantiate an equipment with level which successful rate starts dropping
         $equipmentBeyondThreshold = new Equipment(new EnhancementLevel(Equipment::THRESHOLD));
 
         $mapper = new SuccessfulRateMapper($equipmentBeyondThreshold);
