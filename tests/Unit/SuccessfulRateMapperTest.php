@@ -31,7 +31,7 @@ class SuccessfulRateMapperTest extends TestCase
     }
 
     /**
-     * TODO 1
+     * TODO 3
      *
      * @return void
      */
@@ -43,5 +43,22 @@ class SuccessfulRateMapperTest extends TestCase
         $mapper = new SuccessfulRateMapper($equipmentBeyondThreshold);
 
         $this->assertTrue(SuccessfulRate::MAXIMUM > $mapper->getRate());
+    }
+
+    /**
+     * TODO 2
+     *
+     * @return void
+     */
+    public function test_successful_rate_increases_along_with_fail_stack()
+    {
+        // instantiate an equipment with level which successful rate is not 100%
+        $equipmentBeyondThreshold = new Equipment(new EnhancementLevel(Equipment::THRESHOLD));
+
+        $mapperWithNoStack = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack());
+
+        $mapperWithFS1 = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack(1));
+
+        $this->assertTrue($mapperWithNoStack->getRate() < $mapperWithFS1->getRate());
     }
 }
