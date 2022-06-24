@@ -26,7 +26,7 @@ class SuccessfulRateMapperTest extends TestCase
         // instantiate an equipment with minimum level
         $levelZeroEquipment = new Equipment(new EnhancementLevel());
 
-        $mapper = new SuccessfulRateMapper($levelZeroEquipment);
+        $mapper = new SuccessfulRateMapper($levelZeroEquipment, new FailStack());
 
         $this->assertSame(SuccessfulRate::MAXIMUM, $mapper->getRate());
     }
@@ -41,7 +41,7 @@ class SuccessfulRateMapperTest extends TestCase
         // instantiate an equipment with level which successful rate starts dropping
         $equipmentBeyondThreshold = new Equipment(new EnhancementLevel(Equipment::THRESHOLD));
 
-        $mapper = new SuccessfulRateMapper($equipmentBeyondThreshold);
+        $mapper = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack());
 
         $this->assertTrue(SuccessfulRate::MAXIMUM > $mapper->getRate());
     }
