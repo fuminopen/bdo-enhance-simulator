@@ -6,6 +6,8 @@ use InvalidArgumentException;
 
 final class FailStack
 {
+    private const MINIMUM = 0;
+
     /**
      * @var int
      */
@@ -17,7 +19,7 @@ final class FailStack
      * @param  int|float $stack Accepts float to avoid loss of precision by implicit conversion. Float will be rejected by check on constructor if passed.
      * @return void
      */
-    public function __construct(int|float $stack)
+    public function __construct(int|float $stack = self::MINIMUM)
     {
         if ($this->assertInvalidArguments($stack)) {
             throw new InvalidArgumentException('Fail stack must be natural integer including zero.');

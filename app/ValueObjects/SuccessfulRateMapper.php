@@ -11,6 +11,7 @@ final class SuccessfulRateMapper
     private const MAP = [
         7 => [
             0 => 0.70,
+            1 => 0.73,
         ],
         8 => [
             0 => 0.60,
@@ -59,14 +60,20 @@ final class SuccessfulRateMapper
     public readonly EnhancementLevel $level;
 
     /**
+     * @var FailStack
+     */
+    public readonly FailStack $stack;
+
+    /**
      * __construct
      *
      * @param  Equipment $equipment
      * @return void
      */
-    public function __construct(Equipment $equipment)
+    public function __construct(Equipment $equipment, FailStack $stack)
     {
         $this->level = $equipment->currentLevel;
+        $this->stack = $stack;
     }
 
     /**
@@ -77,7 +84,7 @@ final class SuccessfulRateMapper
     public function getRate(): float
     {
         if ($this->level->level >= Equipment::THRESHOLD) {
-            return self::MAP[$this->level->level][0];
+            return self::MAP[$this->level->level][$this->stack->stack];
         }
 
         return SuccessfulRate::MAXIMUM;

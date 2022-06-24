@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\ValueObjects\EnhancementLevel;
 use App\ValueObjects\Equipment;
+use App\ValueObjects\FailStack;
 use App\ValueObjects\SuccessfulRate;
 use App\ValueObjects\SuccessfulRateMapper;
 use PHPUnit\Framework\TestCase;
