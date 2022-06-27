@@ -65,27 +65,25 @@ class SuccessfulRateMapperTest extends TestCase
 
     public function test_increase_rate_slows_down_after_certain_fail_stack()
     {
+        $level = 9;
+
+        $interval = SuccessfulRateMapper::MAP[$level]['interval'];
+        $droppedInterval = SuccessfulRateMapper::MAP[$level]['dropped_interval'];
+
         // instantiate an equipment with level which successful rate is not 100%
-        $equipmentBeyondThreshold = new Equipment(new EnhancementLevel(8));
+        $equipmentBeyondThreshold = new Equipment(new EnhancementLevel($level));
 
-        $mapper23 = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack(23));
+        for ($stack = 0; $stack <= 30; $stack++) {
+            $current = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack($stack));
+            $next = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack($stack + 1));
 
-        $mapper24 = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack(24));
+            $diff = $next->getRate() - $current->getRate();
 
-        $mapper25 = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack(25));
-
-        $mapper26 = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack(26));
-
-        $diff = $mapper24->getRate() - $mapper23->getRate();
-
-        $this->assertTrue($diff === 2.04);
-
-        $diff = $mapper25->getRate() - $mapper24->getRate();
-
-        $this->assertTrue($diff === 2.04);
-
-        $diff = $mapper26->getRate() - $mapper25->getRate();
-
-        $this->assertTrue($diff === 0.40);
+            if ($current->getRate() < 0.7000) {
+                $this->assertSame($interval, $diff);
+            } else {
+                $this->assertSame($droppedInterval, $diff);
+            }
+        }
     }
 }

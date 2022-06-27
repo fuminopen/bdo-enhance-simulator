@@ -8,49 +8,11 @@ final class SuccessfulRateMapper
      * TODO : generate programmatically.
      *
      */
-    private const MAP = [
-        7 => [
-            0 => 0.70,
-            1 => 0.73,
-        ],
-        8 => [
-            0 => 0.60,
-        ],
+    public const MAP = [
         9 => [
-            0 => 0.50,
-        ],
-        10 => [
-
-        ],
-        11 => [
-
-        ],
-        12 => [
-
-        ],
-        13 => [
-
-        ],
-        14 => [
-
-        ],
-        15 => [
-
-        ],
-        16 => [
-
-        ],
-        17 => [
-
-        ],
-        18 => [
-
-        ],
-        19 => [
-
-        ],
-        20 => [
-
+            'base' => 0.2041,
+            'interval' => 0.0204,
+            'dropped_interval' => 0.0040,
         ],
     ];
 
@@ -83,10 +45,20 @@ final class SuccessfulRateMapper
      */
     public function getRate(): float
     {
-        if ($this->level->level >= Equipment::THRESHOLD) {
-            return self::MAP[$this->level->level][$this->stack->stack];
+        if ($this->level->level < Equipment::THRESHOLD) {
+            return SuccessfulRate::MAXIMUM;
         }
 
-        return SuccessfulRate::MAXIMUM;
+        $base = self::MAP[$this->level->level]['base'];
+        $interval = self::MAP[$this->level->level]['interval'];
+        $droppedInterval = self::MAP[$this->level->level]['dropped_interval'];
+
+        // stack starts from 1 because no rate needs to be added for stack 0
+        for ($stack = 1; $stack <= $this->stack->stack; $stack++) {
+            // if base surpasses the soft cap, dropped interval is applied
+            $base += ($base > 0.70) ? $droppedInterval : $interval;
+        }
+
+        return $base;
     }
 }
