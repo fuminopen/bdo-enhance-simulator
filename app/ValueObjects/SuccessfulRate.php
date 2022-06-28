@@ -8,7 +8,12 @@ class SuccessfulRate
 {
     public const MINIMUM = 0.01;
 
-    public const MAXIMUM = 1.00;
+    public const MAXIMUM = 100.00;
+
+    /**
+     * @var float
+     */
+    public readonly float $percent;
 
     /**
      * @var float
@@ -18,37 +23,52 @@ class SuccessfulRate
     /**
      * __construct
      *
-     * @param  float $rate
+     * @param  float $percent Specify successful rate between 0.01 to 100.00
      * @return void
      */
-    public function __construct(float $rate)
+    public function __construct(float $percent)
     {
-        if ($this->assertInvalidRate($rate)) {
-            throw new InvalidArgumentException('Given rate is invalid.');
+        if ($this->assertInvalidRate($percent)) {
+            throw new InvalidArgumentException('Given rate is invalid. Specify successful rate between 0.01 to 100.00.');
         }
 
-        $this->rate = $this->formatRate($rate);
+        $this->percent = $this->formatPercent($percent);
+        $this->rate = $this->formatRate($percent);
+    }
+
+    /**
+     * formatPercent
+     *
+     * @param  float $percent
+     * @return float
+     */
+    private function formatPercent(float $percent): float
+    {
+        return round($percent, 2);
     }
 
     /**
      * formatRate
      *
-     * @param  float $rate
+     * @param  float $percent
      * @return float
      */
-    private function formatRate(float $rate): float
+    private function formatRate(int $percent): float
     {
-        return round($rate, 2);
+        return round(
+            ($percent / 100),
+            4
+        );
     }
 
     /**
      * assertInvalidRate
      *
-     * @param  float $rate
+     * @param  float $percent
      * @return bool
      */
-    private function assertInvalidRate(float $rate): bool
+    private function assertInvalidRate(float $percent): bool
     {
-        return ($rate > self::MAXIMUM) || ($rate < self::MINIMUM);
+        return ($percent > self::MAXIMUM) || ($percent < self::MINIMUM);
     }
 }

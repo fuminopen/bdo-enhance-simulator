@@ -7,32 +7,37 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * 1. successful rate is float with second decimal place
- * 2. minimum is 0.01
- * 3. maximum is 1.00
+ * 1. successful rate has percent property between 0.01% to 100.00% with second decimal place
+ * 2. successful rate has percent property between 0.01% to 100.00% with second decimal place
+ * 3. minimum is 0.01
+ * 4. maximum is 100.00
  */
 class SuccessfulRateTest extends TestCase
 {
     /**
      * TODO : 1
      */
-    public function test_rate_is_float_with_second_decimal_place()
+    public function test_percent_is_float_with_second_decimal_place()
     {
-        $rate = new SuccessfulRate(0.5555);
+        // ceil
+        $rate = new SuccessfulRate(55.555);
 
-        $this->assertSame(0.56, $rate->rate);
+        $this->assertSame(55.56, $rate->percent);
 
-        $rate = new SuccessfulRate(0.54444);
+        // floor
+        $rate = new SuccessfulRate(54.444);
 
-        $this->assertSame(0.54, $rate->rate);
+        $this->assertSame(54.44, $rate->percent);
 
-        $rate = new SuccessfulRate(0.011111);
+        // minimum
+        $rate = new SuccessfulRate(0.011);
 
-        $this->assertSame(SuccessfulRate::MINIMUM, $rate->rate);
+        $this->assertSame(SuccessfulRate::MINIMUM, $rate->percent);
 
-        $rate = new SuccessfulRate(0.999999999);
+        // maximum
+        $rate = new SuccessfulRate(99.999);
 
-        $this->assertSame(SuccessfulRate::MAXIMUM, $rate->rate);
+        $this->assertSame(SuccessfulRate::MAXIMUM, $rate->percent);
     }
 
     /**
