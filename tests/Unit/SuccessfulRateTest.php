@@ -32,12 +32,38 @@ class SuccessfulRateTest extends TestCase
         // minimum
         $rate = new SuccessfulRate(0.011);
 
-        $this->assertSame(SuccessfulRate::MINIMUM, $rate->percent);
+        $this->assertSame(SuccessfulRate::MINIMUM_PERCENT, $rate->percent);
 
         // maximum
         $rate = new SuccessfulRate(99.999);
 
-        $this->assertSame(SuccessfulRate::MAXIMUM, $rate->percent);
+        $this->assertSame(SuccessfulRate::MAXIMUM_PERCENT, $rate->percent);
+    }
+
+    /**
+     * TODO : 2
+     */
+    public function test_rate_is_float_with_fourth_decimal_place()
+    {
+        // ceil
+        $rate = new SuccessfulRate(55.555);
+
+        $this->assertSame(0.5556, $rate->rate);
+
+        // floor
+        $rate = new SuccessfulRate(54.444);
+
+        $this->assertSame(0.5444, $rate->rate);
+
+        // minimum
+        $rate = new SuccessfulRate(0.011);
+
+        $this->assertSame(SuccessfulRate::MINIMUM_RATE, $rate->rate);
+
+        // maximum
+        $rate = new SuccessfulRate(99.999);
+
+        $this->assertSame(SuccessfulRate::MAXIMUM_RATE, $rate->rate);
     }
 
     /**
@@ -49,7 +75,7 @@ class SuccessfulRateTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        new SuccessfulRate(0);
+        new SuccessfulRate(SuccessfulRate::MINIMUM_PERCENT - 0.01);
     }
 
     /**
@@ -59,7 +85,7 @@ class SuccessfulRateTest extends TestCase
      */
     public function test_rate_can_be_instantiated_with_minimum()
     {
-        new SuccessfulRate(SuccessfulRate::MINIMUM);
+        new SuccessfulRate(SuccessfulRate::MINIMUM_PERCENT);
 
         $this->assertTrue(true);
     }
@@ -73,7 +99,7 @@ class SuccessfulRateTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        new SuccessfulRate(1.01);
+        new SuccessfulRate(SuccessfulRate::MAXIMUM_PERCENT + 0.01);
     }
 
     /**
@@ -83,7 +109,7 @@ class SuccessfulRateTest extends TestCase
      */
     public function test_rate_can_be_instantiated_with_maximum()
     {
-        new SuccessfulRate(SuccessfulRate::MAXIMUM);
+        new SuccessfulRate(SuccessfulRate::MAXIMUM_PERCENT);
 
         $this->assertTrue(true);
     }

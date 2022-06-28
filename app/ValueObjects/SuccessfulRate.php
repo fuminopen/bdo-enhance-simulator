@@ -6,9 +6,13 @@ use InvalidArgumentException;
 
 class SuccessfulRate
 {
-    public const MINIMUM = 0.01;
+    public const MINIMUM_PERCENT = 0.01;
 
-    public const MAXIMUM = 100.00;
+    public const MAXIMUM_PERCENT = 100.00;
+
+    public const MINIMUM_RATE = 0.0001;
+
+    public const MAXIMUM_RATE = 1.0000;
 
     /**
      * @var float
@@ -53,7 +57,7 @@ class SuccessfulRate
      * @param  float $percent
      * @return float
      */
-    private function formatRate(int $percent): float
+    private function formatRate(float $percent): float
     {
         return round(
             ($percent / 100),
@@ -69,6 +73,6 @@ class SuccessfulRate
      */
     private function assertInvalidRate(float $percent): bool
     {
-        return ($percent > self::MAXIMUM) || ($percent < self::MINIMUM);
+        return ($percent > self::MAXIMUM_PERCENT) || ($percent < self::MINIMUM_PERCENT);
     }
 }
