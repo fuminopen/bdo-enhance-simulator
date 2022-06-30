@@ -4,11 +4,17 @@ namespace App\ValueObjects;
 
 final class SuccessfulRateMapper
 {
-    /**
-     * TODO : generate programmatically.
-     *
-     */
     public const MAP = [
+        7 => [
+            'base' => 0.2041,
+            'interval' => 0.0204,
+            'dropped_interval' => 0.0040,
+        ],
+        8 => [
+            'base' => 0.2041,
+            'interval' => 0.0204,
+            'dropped_interval' => 0.0040,
+        ],
         9 => [
             'base' => 0.2041,
             'interval' => 0.0204,
@@ -46,7 +52,7 @@ final class SuccessfulRateMapper
     public function getRate(): float
     {
         if ($this->level->level < Equipment::THRESHOLD) {
-            return SuccessfulRate::MAXIMUM;
+            return SuccessfulRate::MAXIMUM_RATE;
         }
 
         $base = self::MAP[$this->level->level]['base'];

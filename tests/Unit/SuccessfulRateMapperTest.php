@@ -28,7 +28,7 @@ class SuccessfulRateMapperTest extends TestCase
 
         $mapper = new SuccessfulRateMapper($levelZeroEquipment, new FailStack());
 
-        $this->assertSame(SuccessfulRate::MAXIMUM, $mapper->getRate());
+        $this->assertSame(SuccessfulRate::MAXIMUM_RATE, $mapper->getRate());
     }
 
     /**
@@ -43,7 +43,7 @@ class SuccessfulRateMapperTest extends TestCase
 
         $mapper = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack());
 
-        $this->assertTrue(SuccessfulRate::MAXIMUM > $mapper->getRate());
+        $this->assertTrue(SuccessfulRate::MAXIMUM_RATE > $mapper->getRate());
     }
 
     /**
