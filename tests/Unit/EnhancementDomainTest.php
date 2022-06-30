@@ -14,7 +14,7 @@ class EnhancementDomainTest extends TestCase
 
         $stack = 10;
 
-        $domain->setStack($stack);
+        $domain->setFailStack($stack);
 
         $this->assertSame($stack, $domain->currentStack());
     }
