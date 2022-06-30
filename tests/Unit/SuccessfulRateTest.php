@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * 1. successful rate has percent property between 0.01% to 100.00% with second decimal place
- * 2. successful rate has percent property between 0.01% to 100.00% with second decimal place
+ * 2. successful rate has rate property between 0.0001 to 1.0000 with fourth decimal place
  * 3. minimum is 0.01
  * 4. maximum is 100.00
  */
@@ -67,7 +67,7 @@ class SuccessfulRateTest extends TestCase
     }
 
     /**
-     * TODO : 2
+     * TODO : 3
      *
      * @return void
      */
@@ -79,7 +79,7 @@ class SuccessfulRateTest extends TestCase
     }
 
     /**
-     * TODO : 2
+     * TODO : 3
      *
      * @return void
      */
@@ -91,7 +91,7 @@ class SuccessfulRateTest extends TestCase
     }
 
     /**
-     * TODO : 3
+     * TODO : 4
      *
      * @return void
      */
@@ -103,7 +103,7 @@ class SuccessfulRateTest extends TestCase
     }
 
     /**
-     * TODO : 3
+     * TODO : 4
      *
      * @return void
      */

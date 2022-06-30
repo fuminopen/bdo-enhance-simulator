@@ -63,6 +63,9 @@ class SuccessfulRateMapperTest extends TestCase
         $this->assertTrue($mapperWithNoStack->getRate() < $mapperWithFS1->getRate());
     }
 
+    /**
+     * TODO 3
+     */
     public function test_increase_rate_slows_down_after_certain_fail_stack()
     {
         $level = 9;
