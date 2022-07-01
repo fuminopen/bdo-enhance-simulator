@@ -24,6 +24,7 @@ final class EnhancementDomain
     public function __construct(Equipment $equipment)
     {
         $this->equipment = $equipment;
+        $this->failStack = new FailStack();
     }
 
     /**
@@ -45,5 +46,15 @@ final class EnhancementDomain
     public function currentStack(): int
     {
         return $this->failStack->stack;
+    }
+
+    /**
+     * removeFailStack
+     *
+     * @return void
+     */
+    public function removeFailStack(): void
+    {
+        $this->failStack = new FailStack();
     }
 }
