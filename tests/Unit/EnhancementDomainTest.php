@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
  * 2. stack can be removed
  * 3. equipment can be set
  * 4. equipment can be removed
+ * 5. can display if enhancement is ready
  */
 class EnhancementDomainTest extends TestCase
 {
@@ -77,5 +78,23 @@ class EnhancementDomainTest extends TestCase
         $domain->unsetEquipment();
 
         $this->assertNull($domain->currentEquipment());
+    }
+
+    /**
+     * TODO 5
+     */
+    public function test_ready_to_enhance_working()
+    {
+        $domain = new EnhancementDomain();
+
+        $this->assertFalse($domain->readyToEnhance());
+
+        $domain->setEquipment(new Equipment());
+
+        $this->assertTrue($domain->readyToEnhance());
+
+        $domain->unsetEquipment();
+
+        $this->assertFalse($domain->readyToEnhance());
     }
 }
