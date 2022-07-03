@@ -53,7 +53,7 @@ final class EnhancementDomain
      *
      * @return void
      */
-    public function removeFailStack(): void
+    public function unsetFailStack(): void
     {
         $this->failStack = new FailStack();
     }
@@ -77,5 +77,15 @@ final class EnhancementDomain
     public function currentEquipment(): ?Equipment
     {
         return $this->equipment;
+    }
+
+    /**
+     * unsetEquipment
+     *
+     * @return void
+     */
+    public function unsetEquipment(): void
+    {
+        $this->equipment = null;
     }
 }
