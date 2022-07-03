@@ -20,7 +20,7 @@ class EnhancementDomainTest extends TestCase
      */
     public function test_stack_can_be_set()
     {
-        $domain = new EnhancementDomain(new Equipment());
+        $domain = new EnhancementDomain();
 
         $stack = 10;
 
@@ -34,7 +34,7 @@ class EnhancementDomainTest extends TestCase
      */
     public function test_stack_can_be_removed()
     {
-        $domain = new EnhancementDomain(new Equipment());
+        $domain = new EnhancementDomain();
 
         $stack = 10;
 
@@ -58,6 +58,8 @@ class EnhancementDomainTest extends TestCase
 
         $equipment = new Equipment(new EnhancementLevel($level));
 
-        $this->assertSame($level, $domain->equipmentLevel());
+        $domain->setEquipment($equipment);
+
+        $this->assertSame($level, $domain->currentEquipment()?->currentLevel->level);
     }
 }

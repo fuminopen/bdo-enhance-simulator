@@ -8,9 +8,9 @@ use App\ValueObjects\FailStack;
 final class EnhancementDomain
 {
     /**
-     * @var Equipment
+     * @var Equipment|null
      */
-    private readonly Equipment $equipment;
+    private ?Equipment $equipment;
 
     /**
      * @var FailStack
@@ -18,12 +18,12 @@ final class EnhancementDomain
     private FailStack $failStack;
 
     /**
-     * @param  Equipment $equipment
+     * @param  void
      * @return void
      */
-    public function __construct(Equipment $equipment)
+    public function __construct()
     {
-        $this->equipment = $equipment;
+        $this->equipment = null;
         $this->failStack = new FailStack();
     }
 
@@ -56,5 +56,26 @@ final class EnhancementDomain
     public function removeFailStack(): void
     {
         $this->failStack = new FailStack();
+    }
+
+    /**
+     * setEquipment
+     *
+     * @param  Equipment
+     * @return void
+     */
+    public function setEquipment(Equipment $equipment): void
+    {
+        $this->equipment = $equipment;
+    }
+
+    /**
+     * currentEquipment
+     *
+     * @return Equipment|null
+     */
+    public function currentEquipment(): ?Equipment
+    {
+        return $this->equipment;
     }
 }
