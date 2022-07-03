@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
  * 3. equipment can be set
  * 4. equipment can be removed
  * 5. can display if enhancement is ready
+ * 6. enhancement of equipments working
  */
 class EnhancementDomainTest extends TestCase
 {
@@ -96,5 +97,25 @@ class EnhancementDomainTest extends TestCase
         $domain->unsetEquipment();
 
         $this->assertFalse($domain->readyToEnhance());
+    }
+
+    /**
+     * TODO 6
+     */
+    public function test_enhancement_working()
+    {
+        $domain = new EnhancementDomain();
+
+        $domain->setEquipment(new Equipment());
+
+        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $domain->currentEquipment()?->currentLevel->level);
+
+        $succeed = $domain->enhance();
+
+        $level = ($succeed)
+            ? EnhancementLevel::MINIMUM_LEVEL + 1
+            : EnhancementLevel::MINIMUM_LEVEL;
+
+        $this->assertSame($level, $domain->currentEquipment()->currentLevel->level);
     }
 }
