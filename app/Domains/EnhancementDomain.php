@@ -88,4 +88,14 @@ final class EnhancementDomain
     {
         $this->equipment = null;
     }
+
+    /**
+     * readyToEnhance
+     *
+     * @return bool
+     */
+    public function readyToEnhance(): bool
+    {
+        return !is_null($this->equipment);
+    }
 }
