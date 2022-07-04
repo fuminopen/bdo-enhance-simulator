@@ -4,6 +4,7 @@ namespace App\Domains;
 
 use App\ValueObjects\Equipment;
 use App\ValueObjects\FailStack;
+use App\ValueObjects\SuccessfulRateMapper;
 
 final class EnhancementDomain
 {
@@ -97,5 +98,27 @@ final class EnhancementDomain
     public function readyToEnhance(): bool
     {
         return !is_null($this->equipment);
+    }
+
+    /**
+     * enhance
+     *
+     * @return bool
+     */
+    public function enhance(): bool
+    {
+        $rand = random_int(1, 10000) / 10000;
+
+        $successfulRateMapper = new SuccessfulRateMapper($this->equipment, $this->failStack);
+
+        $rate = $successfulRateMapper->getRate();
+
+        if ($rate >= $rand) {
+            $this->equipment = $this->equipment->enhancementSucceed();
+            return true;
+        }
+
+        $this->equipment = $this->equipment->enhancementFailed();
+        return false;
     }
 }

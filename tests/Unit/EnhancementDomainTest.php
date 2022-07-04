@@ -104,17 +104,19 @@ class EnhancementDomainTest extends TestCase
      */
     public function test_enhancement_working()
     {
+        $baseLevel = EnhancementLevel::MINIMUM_LEVEL + 1;
+
         $domain = new EnhancementDomain();
 
-        $domain->setEquipment(new Equipment());
+        $domain->setEquipment(new Equipment(new EnhancementLevel($baseLevel)));
 
-        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $domain->currentEquipment()?->currentLevel->level);
+        $this->assertSame($baseLevel, $domain->currentEquipment()?->currentLevel->level);
 
         $succeed = $domain->enhance();
 
         $level = ($succeed)
-            ? EnhancementLevel::MINIMUM_LEVEL + 1
-            : EnhancementLevel::MINIMUM_LEVEL;
+            ? $baseLevel + 1
+            : $baseLevel - 1;
 
         $this->assertSame($level, $domain->currentEquipment()->currentLevel->level);
     }
