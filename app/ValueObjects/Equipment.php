@@ -34,7 +34,7 @@ final class Equipment
      */
     public function enhancementSucceed(): Equipment
     {
-        if (! $this->currentLevel->atMaximumLevel()) {
+        if (!$this->currentLevel->atMaximumLevel()) {
             $newLevel = new EnhancementLevel($this->currentLevel->levelUp()->level);
             return new self($newLevel);
         }
@@ -49,7 +49,7 @@ final class Equipment
      */
     public function enhancementFailed(): Equipment
     {
-        if (! $this->currentLevel->atMinimumLevel()) {
+        if ($this->currentLevel->level > self::THRESHOLD) {
             $newLevel = new EnhancementLevel($this->currentLevel->levelDown()->level);
             return new self($newLevel);
         }

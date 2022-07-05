@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
  * 3. enhancement succeeds or fails
  * 4. level ups when succeed
  * 5. level downs when failed
+ * 6. level downs only if current level is threshold + 1 or higher
  */
 class EquipmentTest extends TestCase
 {
@@ -55,6 +56,34 @@ class EquipmentTest extends TestCase
     public function test_an_equipment_levels_down_when_enhancement_failed()
     {
         $equipment = new Equipment(new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL));
+
+        $currentLevel = $equipment->currentLevel;
+
+        $newEquipment = $equipment->enhancementFailed();
+
+        $this->assertSame(
+            $currentLevel->levelDown()->level,
+            $newEquipment->currentLevel->level
+        );
+    }
+
+    /**
+     * TODO 6
+     */
+    public function test_level_down_occurs_only_beyond_threshold()
+    {
+        $equipment = new Equipment(new EnhancementLevel(Equipment::THRESHOLD));
+
+        $currentLevel = $equipment->currentLevel;
+
+        $newEquipment = $equipment->enhancementFailed();
+
+        $this->assertSame(
+            $currentLevel->level,
+            $newEquipment->currentLevel->level
+        );
+
+        $equipment = new Equipment(new EnhancementLevel(Equipment::THRESHOLD + 1));
 
         $currentLevel = $equipment->currentLevel;
 
