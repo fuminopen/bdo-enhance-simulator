@@ -5,11 +5,6 @@ namespace App\ValueObjects;
 class Equipment
 {
     /**
-     * enhancement level which successful rate starting to drop
-     */
-    public const THRESHOLD = 7;
-
-    /**
      * @var EnhancementLevel
      */
     public readonly EnhancementLevel $currentLevel;
