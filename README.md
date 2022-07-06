@@ -13,7 +13,10 @@
 
 ## About equipments
 
-- Equipment 
+- Equipment has following subtypes : weapons, armors, accessories.
+- Equipment has durability.
+- Equipment has level.
+- Equipment has rarity.
 
 ## About successful rate
 
@@ -22,3 +25,9 @@
 - Maximum successful rate is 100.00%.
 - Successful rate is float with second decimal place.
 - Successful rate is rounded for its overflowed precision.
+- Successful rate table is decided by the combination of type, rarity, level.
+- Successful rate increases along with fail stack.
+
+## About fail stack
+
+## About durability
