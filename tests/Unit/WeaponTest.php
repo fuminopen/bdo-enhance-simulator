@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\ValueObjects\Weapon;
 use PHPUnit\Framework\TestCase;
 
 /**

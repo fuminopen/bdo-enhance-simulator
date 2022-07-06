@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects;
 
-final class Equipment
+class Equipment
 {
     /**
      * enhancement level which successful rate starting to drop
