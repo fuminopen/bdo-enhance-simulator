@@ -18,4 +18,15 @@ class WeaponTest extends TestCase
     {
         $this->assertSame(0, (new Weapon())->currentLevel->level);
     }
+
+    /**
+     * 2. threshold is 7.
+     */
+    public function test_threshold_is_7()
+    {
+        $this->assertSame(
+            7,
+            (new Weapon())->getThreshold()->level
+        );
+    }
 }
