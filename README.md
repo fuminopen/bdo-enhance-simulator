@@ -31,3 +31,5 @@
 ## About fail stack
 
 ## About durability
+
+- Durability is decided based on rarity.
