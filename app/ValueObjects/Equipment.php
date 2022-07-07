@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects;
 
-class Equipment
+final class Equipment
 {
     /**
      * @var EnhancementLevel
@@ -27,14 +27,17 @@ class Equipment
      *
      * @return Equipment
      */
-    public function enhancementSucceed(): Equipment
+    public function enhancementSucceed(Enhancable $enhancable): Enhancable
     {
-        if (!$this->currentLevel->atMaximumLevel()) {
-            $newLevel = new EnhancementLevel($this->currentLevel->levelUp()->level);
-            return new self($newLevel);
+        if ($enhancable->getCurrentLevel()->atMaximumLevel()) {
+            return $this;
         }
 
-        return $this;
+        $newLevel = new EnhancementLevel($enhancable->getCurrentLevel()->level + 1);
+
+        $class = get_class($enhancable);
+
+        return new $class($newLevel);
     }
 
     /**
@@ -42,13 +45,16 @@ class Equipment
      *
      * @return Equipment
      */
-    public function enhancementFailed(): Equipment
+    public function enhancementFailed(Enhancable $enhancable): Enhancable
     {
-        if ($this->currentLevel->level > self::THRESHOLD) {
-            $newLevel = new EnhancementLevel($this->currentLevel->levelDown()->level);
-            return new self($newLevel);
+        if ($enhancable->getCurrentLevel()->level <= $enhancable->getThreshold()->level) {
+            return $this;
         }
 
-        return $this;
+        $newLevel = new EnhancementLevel($enhancable->getCurrentLevel()->levelDown()->level);
+
+        $class = get_class($enhancable);
+
+        return new $class($newLevel);
     }
 }
