@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\ValueObjects\EnhancementLevel;
 use App\ValueObjects\Equipment;
 use App\ValueObjects\Weapon;
+use Doctrine\Inflector\Rules\Word;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -76,26 +77,28 @@ class WeaponTest extends TestCase
      */
     public function test_level_down_occurs_only_beyond_threshold()
     {
-        $equipment = new Weapon(new EnhancementLevel(Weapon::THRESHOLD));
+        $weapon = new Weapon(new EnhancementLevel(Weapon::THRESHOLD));
 
-        $currentLevel = $equipment->currentLevel;
+        $currentLevel = $weapon->getCurrentLevel();
 
-        $newEquipment = $equipment->enhancementFailed();
+        $newWeapon = $weapon->enhancementFailed();
 
+        // does not level down
         $this->assertSame(
             $currentLevel->level,
-            $newEquipment->currentLevel->level
+            $newWeapon->getCurrentLevel()->level
         );
 
-        $equipment = new Weapon(new EnhancementLevel(Equipment::THRESHOLD + 1));
+        $weapon = new Weapon(new EnhancementLevel(Weapon::THRESHOLD + 1));
 
-        $currentLevel = $equipment->currentLevel;
+        $currentLevel = $weapon->getCurrentLevel();
 
-        $newEquipment = $equipment->enhancementFailed();
+        $newWeapon = $weapon->enhancementFailed();
 
+        // level downs
         $this->assertSame(
             $currentLevel->levelDown()->level,
-            $newEquipment->currentLevel->level
+            $newWeapon->getCurrentLevel()->level
         );
     }
 
@@ -104,7 +107,7 @@ class WeaponTest extends TestCase
      */
     public function test_base_level_is_0()
     {
-        $this->assertSame(0, (new Weapon())->currentLevel->level);
+        $this->assertSame(0, (new Weapon())->getCurrentLevel()->level);
     }
 
     /**

@@ -30,7 +30,7 @@ final class Equipment
     public function enhancementSucceed(Enhancable $enhancable): Enhancable
     {
         if ($enhancable->getCurrentLevel()->atMaximumLevel()) {
-            return $this;
+            return $enhancable;
         }
 
         $newLevel = new EnhancementLevel($enhancable->getCurrentLevel()->level + 1);
@@ -48,7 +48,7 @@ final class Equipment
     public function enhancementFailed(Enhancable $enhancable): Enhancable
     {
         if ($enhancable->getCurrentLevel()->level <= $enhancable->getThreshold()->level) {
-            return $this;
+            return $enhancable;
         }
 
         $newLevel = new EnhancementLevel($enhancable->getCurrentLevel()->levelDown()->level);
