@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects;
 
-interface Enhancable
+interface Enhanceable
 {
     public function getCurrentLevel(): EnhancementLevel;
 

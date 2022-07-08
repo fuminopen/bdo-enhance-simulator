@@ -51,7 +51,7 @@ final class SuccessfulRateMapper
      */
     public function getRate(): float
     {
-        if ($this->level->level < Equipment::THRESHOLD) {
+        if ($this->level->level < Weapon::THRESHOLD) {
             return SuccessfulRate::MAXIMUM_RATE;
         }
 

@@ -7,6 +7,7 @@ use App\ValueObjects\Equipment;
 use App\ValueObjects\FailStack;
 use App\ValueObjects\SuccessfulRate;
 use App\ValueObjects\SuccessfulRateMapper;
+use App\ValueObjects\Weapon;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -39,7 +40,7 @@ class SuccessfulRateMapperTest extends TestCase
     public function test_successful_rate_starts_dropping_after_threshold()
     {
         // instantiate an equipment with level which successful rate starts dropping
-        $equipmentBeyondThreshold = new Equipment(new EnhancementLevel(Equipment::THRESHOLD));
+        $equipmentBeyondThreshold = new Equipment(new EnhancementLevel(Weapon::THRESHOLD));
 
         $mapper = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack());
 
@@ -54,7 +55,7 @@ class SuccessfulRateMapperTest extends TestCase
     public function test_successful_rate_increases_along_with_fail_stack()
     {
         // instantiate an equipment with level which successful rate is not 100%
-        $equipmentBeyondThreshold = new Equipment(new EnhancementLevel(Equipment::THRESHOLD));
+        $equipmentBeyondThreshold = new Equipment(new EnhancementLevel(Weapon::THRESHOLD));
 
         $mapperWithNoStack = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack());
 

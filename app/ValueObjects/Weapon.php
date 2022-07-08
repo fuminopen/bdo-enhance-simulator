@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects;
 
-final class Weapon implements Enhancable
+final class Weapon implements Enhanceable
 {
     /**
      * enhancement level which successful rate starting to drop
@@ -24,11 +24,6 @@ final class Weapon implements Enhancable
         $this->equipment = new Equipment($this->level);
     }
 
-    public function getCurrentLevel(): EnhancementLevel
-    {
-        return $this->level;
-    }
-
     /**
      * enhancementSucceed
      *
@@ -47,6 +42,16 @@ final class Weapon implements Enhancable
     public function enhancementFailed(): Weapon
     {
         return $this->equipment->enhancementFailed($this);
+    }
+
+    /**
+     * getCurrentLevel
+     *
+     * @return EnhancementLevel
+     */
+    public function getCurrentLevel(): EnhancementLevel
+    {
+        return $this->level;
     }
 
     /**

@@ -27,15 +27,15 @@ final class Equipment
      *
      * @return Equipment
      */
-    public function enhancementSucceed(Enhancable $enhancable): Enhancable
+    public function enhancementSucceed(Enhanceable $enhanceable): Enhanceable
     {
-        if ($enhancable->getCurrentLevel()->atMaximumLevel()) {
-            return $enhancable;
+        if ($enhanceable->getCurrentLevel()->atMaximumLevel()) {
+            return $enhanceable;
         }
 
-        $newLevel = new EnhancementLevel($enhancable->getCurrentLevel()->level + 1);
+        $newLevel = new EnhancementLevel($enhanceable->getCurrentLevel()->level + 1);
 
-        $class = get_class($enhancable);
+        $class = get_class($enhanceable);
 
         return new $class($newLevel);
     }
@@ -45,15 +45,15 @@ final class Equipment
      *
      * @return Equipment
      */
-    public function enhancementFailed(Enhancable $enhancable): Enhancable
+    public function enhancementFailed(Enhanceable $enhanceable): Enhanceable
     {
-        if ($enhancable->getCurrentLevel()->level <= $enhancable->getThreshold()->level) {
-            return $enhancable;
+        if ($enhanceable->getCurrentLevel()->level <= $enhanceable->getThreshold()->level) {
+            return $enhanceable;
         }
 
-        $newLevel = new EnhancementLevel($enhancable->getCurrentLevel()->levelDown()->level);
+        $newLevel = new EnhancementLevel($enhanceable->getCurrentLevel()->levelDown()->level);
 
-        $class = get_class($enhancable);
+        $class = get_class($enhanceable);
 
         return new $class($newLevel);
     }
