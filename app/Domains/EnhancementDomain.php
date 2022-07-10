@@ -2,6 +2,7 @@
 
 namespace App\Domains;
 
+use App\ValueObjects\Enhanceable;
 use App\ValueObjects\Equipment;
 use App\ValueObjects\FailStack;
 use App\ValueObjects\SuccessfulRateMapper;
@@ -9,9 +10,9 @@ use App\ValueObjects\SuccessfulRateMapper;
 final class EnhancementDomain
 {
     /**
-     * @var Equipment|null
+     * @var Enhanceable|null
      */
-    private ?Equipment $equipment;
+    private ?Enhanceable $enhanceable;
 
     /**
      * @var FailStack
@@ -62,22 +63,22 @@ final class EnhancementDomain
     /**
      * setEquipment
      *
-     * @param  Equipment
+     * @param  Enhanceable
      * @return void
      */
-    public function setEquipment(Equipment $equipment): void
+    public function setEquipment(Enhanceable $enhanceable): void
     {
-        $this->equipment = $equipment;
+        $this->enhanceable = $enhanceable;
     }
 
     /**
      * currentEquipment
      *
-     * @return Equipment|null
+     * @return Enhanceable|null
      */
-    public function currentEquipment(): ?Equipment
+    public function currentEquipment(): ?Enhanceable
     {
-        return $this->equipment;
+        return $this->enhanceable;
     }
 
     /**
@@ -87,7 +88,7 @@ final class EnhancementDomain
      */
     public function unsetEquipment(): void
     {
-        $this->equipment = null;
+        $this->enhanceable = null;
     }
 
     /**
@@ -97,7 +98,7 @@ final class EnhancementDomain
      */
     public function readyToEnhance(): bool
     {
-        return !is_null($this->equipment);
+        return !is_null($this->enhanceable);
     }
 
     /**
@@ -109,16 +110,16 @@ final class EnhancementDomain
     {
         $rand = random_int(1, 10000) / 10000;
 
-        $successfulRateMapper = new SuccessfulRateMapper($this->equipment, $this->failStack);
+        $successfulRateMapper = new SuccessfulRateMapper($this->enhanceable, $this->failStack);
 
         $rate = $successfulRateMapper->getRate();
 
         if ($rate >= $rand) {
-            $this->equipment = $this->equipment->enhancementSucceed();
+            $this->enhanceable = $this->enhanceable->enhancementSucceed($this->enhanceable);
             return true;
         }
 
-        $this->equipment = $this->equipment->enhancementFailed();
+        $this->enhanceable = $this->enhanceable->enhancementFailed();
         return false;
     }
 }

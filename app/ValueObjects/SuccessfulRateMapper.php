@@ -35,12 +35,12 @@ final class SuccessfulRateMapper
     /**
      * __construct
      *
-     * @param  Equipment $equipment
+     * @param  Enhanceable $enhanceable
      * @return void
      */
-    public function __construct(Equipment $equipment, FailStack $stack)
+    public function __construct(Enhanceable $enhanceable, FailStack $stack)
     {
-        $this->level = $equipment->currentLevel;
+        $this->level = $enhanceable->getCurrentLevel();
         $this->stack = $stack;
     }
 

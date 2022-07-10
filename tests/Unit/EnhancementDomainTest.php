@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Domains\EnhancementDomain;
 use App\ValueObjects\EnhancementLevel;
 use App\ValueObjects\Equipment;
+use App\ValueObjects\Weapon;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -108,9 +109,9 @@ class EnhancementDomainTest extends TestCase
 
         $domain = new EnhancementDomain();
 
-        $domain->setEquipment(new Equipment(new EnhancementLevel($baseLevel)));
+        $domain->setEquipment(new Weapon(new EnhancementLevel($baseLevel)));
 
-        $this->assertSame($baseLevel, $domain->currentEquipment()?->currentLevel->level);
+        $this->assertSame($baseLevel, $domain->currentEquipment()?->getCurrentLevel()->level);
 
         $succeed = $domain->enhance();
 
@@ -118,6 +119,6 @@ class EnhancementDomainTest extends TestCase
             ? $baseLevel + 1
             : $baseLevel - 1;
 
-        $this->assertSame($level, $domain->currentEquipment()->currentLevel->level);
+        $this->assertSame($level, $domain->currentEquipment()->getCurrentLevel()->level);
     }
 }
