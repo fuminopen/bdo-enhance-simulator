@@ -2,7 +2,7 @@
 
 namespace App\ValueObjects;
 
-final class Equipment
+final class Equipment implements Enhanceable
 {
     /**
      * @var EnhancementLevel
@@ -23,19 +23,41 @@ final class Equipment
     }
 
     /**
+     * // TODO
+     *
+     * @param
+     * @return
+     */
+    public function getCurrentLevel(): EnhancementLevel
+    {
+        return new EnhancementLevel();
+    }
+
+    /**
+     * // TODO
+     *
+     * @param
+     * @return
+     */
+    public function getThreshold(): EnhancementLevel
+    {
+        return new EnhancementLevel();
+    }
+
+    /**
      * enhance
      *
      * @return Equipment
      */
-    public function enhancementSucceed(Enhanceable $enhanceable): Enhanceable
+    public function enhancementSucceed(): Enhanceable
     {
-        if ($enhanceable->getCurrentLevel()->atMaximumLevel()) {
-            return $enhanceable;
+        if ($this->getCurrentLevel()->atMaximumLevel()) {
+            return $this;
         }
 
-        $newLevel = new EnhancementLevel($enhanceable->getCurrentLevel()->level + 1);
+        $newLevel = new EnhancementLevel($this->getCurrentLevel()->level + 1);
 
-        $class = get_class($enhanceable);
+        $class = get_class($this);
 
         return new $class($newLevel);
     }
@@ -45,15 +67,15 @@ final class Equipment
      *
      * @return Equipment
      */
-    public function enhancementFailed(Enhanceable $enhanceable): Enhanceable
+    public function enhancementFailed(): Enhanceable
     {
-        if ($enhanceable->getCurrentLevel()->level <= $enhanceable->getThreshold()->level) {
-            return $enhanceable;
+        if ($this->getCurrentLevel()->level <= $this->getThreshold()->level) {
+            return $this;
         }
 
-        $newLevel = new EnhancementLevel($enhanceable->getCurrentLevel()->levelDown()->level);
+        $newLevel = new EnhancementLevel($this->getCurrentLevel()->levelDown()->level);
 
-        $class = get_class($enhanceable);
+        $class = get_class($this);
 
         return new $class($newLevel);
     }

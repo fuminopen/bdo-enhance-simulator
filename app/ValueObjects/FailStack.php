@@ -2,16 +2,19 @@
 
 namespace App\ValueObjects;
 
+use App\ValueObjects\Traits\GetIntValueTrait;
 use InvalidArgumentException;
 
 final class FailStack
 {
+    use GetIntValueTrait;
+
     private const MINIMUM = 0;
 
     /**
      * @var int
      */
-    public readonly int $stack;
+    public readonly int $value;
 
     /**
      * __construct
@@ -25,7 +28,7 @@ final class FailStack
             throw new InvalidArgumentException('Fail stack must be natural integer including zero.');
         }
 
-        $this->stack = $stack;
+        $this->value = $stack;
     }
 
     /**

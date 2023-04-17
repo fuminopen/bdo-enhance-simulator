@@ -1,27 +1,29 @@
 <?php
 
-namespace App\Domains;
+namespace App\Services;
 
 use App\ValueObjects\Enhanceable;
-use App\ValueObjects\Equipment;
 use App\ValueObjects\FailStack;
 use App\ValueObjects\SuccessfulRateMapper;
 
-final class EnhancementDomain
+final class EnhancementService
 {
     /**
+     * // TODO mutable
+     *
      * @var Enhanceable|null
      */
-    private ?Enhanceable $enhanceable;
+    private ?Enhanceable $equipment;
 
     /**
+     * // TODO mutable
+     *
      * @var FailStack
      */
     private FailStack $failStack;
 
     /**
-     * @param  void
-     * @return void
+     * Enhancement always starts with no equipment and fail stack count at 0
      */
     public function __construct()
     {
@@ -32,43 +34,49 @@ final class EnhancementDomain
     /**
      * setFailStack
      *
-     * @param  int $stackCount
-     * @return void
+     * @param  FailStack $stackCount
+     * @return self
      */
-    public function setFailStack(int $stackCount): void
+    public function setFailStack(FailStack $stack): self
     {
-        $this->failStack = new FailStack($stackCount);
+        $this->failStack = $stack;
+
+        return $this;
     }
 
     /**
      * currentStack
      *
-     * @return int
+     * @return FailStack
      */
-    public function currentStack(): int
+    public function getCurrentStack(): FailStack
     {
-        return $this->failStack->stack;
+        return $this->failStack;
     }
 
     /**
      * removeFailStack
      *
-     * @return void
+     * @return self
      */
-    public function unsetFailStack(): void
+    public function unsetFailStack(): self
     {
         $this->failStack = new FailStack();
+
+        return $this;
     }
 
     /**
      * setEquipment
      *
      * @param  Enhanceable
-     * @return void
+     * @return self
      */
-    public function setEquipment(Enhanceable $enhanceable): void
+    public function setEquipment(Enhanceable $equipment): self
     {
-        $this->enhanceable = $enhanceable;
+        $this->equipment = $equipment;
+
+        return $this;
     }
 
     /**
@@ -78,17 +86,19 @@ final class EnhancementDomain
      */
     public function currentEquipment(): ?Enhanceable
     {
-        return $this->enhanceable;
+        return $this->equipment;
     }
 
     /**
      * unsetEquipment
      *
-     * @return void
+     * @return self
      */
-    public function unsetEquipment(): void
+    public function unsetEquipment(): self
     {
-        $this->enhanceable = null;
+        $this->equipment = null;
+
+        return $this;
     }
 
     /**
@@ -98,7 +108,7 @@ final class EnhancementDomain
      */
     public function readyToEnhance(): bool
     {
-        return !is_null($this->enhanceable);
+        return !is_null($this->equipment);
     }
 
     /**
@@ -110,16 +120,16 @@ final class EnhancementDomain
     {
         $rand = random_int(1, 10000) / 10000;
 
-        $successfulRateMapper = new SuccessfulRateMapper($this->enhanceable, $this->failStack);
+        $successfulRateMapper = new SuccessfulRateMapper($this->equipment, $this->failStack);
 
         $rate = $successfulRateMapper->getRate();
 
         if ($rate >= $rand) {
-            $this->enhanceable = $this->enhanceable->enhancementSucceed($this->enhanceable);
+            $this->equipment = $this->equipment->enhancementSucceed($this->equipment);
             return true;
         }
 
-        $this->enhanceable = $this->enhanceable->enhancementFailed();
+        $this->equipment = $this->equipment->enhancementFailed();
         return false;
     }
 }
