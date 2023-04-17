@@ -2,10 +2,12 @@
 
 namespace App\ValueObjects;
 
-use InvalidArgumentException;
+use App\ValueObjects\Traits\GetIntValueTrait;
 
 final class EnhancementLevel
 {
+    use GetIntValueTrait;
+
     public const MINIMUM_LEVEL = 0;
 
     public const MAXIMUM_LEVEL = 20;
@@ -13,7 +15,7 @@ final class EnhancementLevel
     /**
      * @var int
      */
-    public readonly int $level;
+    public readonly int $value;
 
     /**
      * __construct
@@ -21,13 +23,13 @@ final class EnhancementLevel
      * @param  int $level
      * @return void
      */
-    public function __construct(int $level = self::MINIMUM_LEVEL)
+    public function __construct(int $level)
     {
         if (! $this->validInitialLevel($level)) {
-            throw new InvalidArgumentException('Initial enhancement level is invalid.');
+            throw new InvalidInitialLevelException('Initial enhancement level is invalid.');
         }
 
-        $this->level = $level;
+        $this->value = $level;
     }
 
     /**
