@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Exceptions\InvalidStackCountException;
 use App\ValueObjects\FailStack;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -23,7 +24,7 @@ class FailStackTest extends TestCase
 
         $this->assertInstanceOf(FailStack::class, $stack);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidStackCountException::class);
 
         new FailStack(-1);
     }
@@ -34,7 +35,7 @@ class FailStackTest extends TestCase
 
         $this->assertInstanceOf(FailStack::class, $stack);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidStackCountException::class);
 
         new FailStack(1.01);
     }

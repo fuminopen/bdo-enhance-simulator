@@ -2,6 +2,7 @@
 
 namespace App\ValueObjects;
 
+use App\Exceptions\InvalidStackCountException;
 use App\ValueObjects\Traits\GetIntValueTrait;
 use InvalidArgumentException;
 
@@ -25,11 +26,17 @@ final class FailStack
     public function __construct(int|float $stack = self::MINIMUM)
     {
         if ($this->assertInvalidArguments($stack)) {
-            throw new InvalidArgumentException('Fail stack must be natural integer including zero.');
+            throw new InvalidStackCountException();
         }
 
         $this->value = $stack;
     }
+
+    /**************************
+     *
+     * private methods
+     *
+     **************************/
 
     /**
      * assertInvalidArguments
