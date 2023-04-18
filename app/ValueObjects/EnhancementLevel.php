@@ -2,6 +2,7 @@
 
 namespace App\ValueObjects;
 
+use App\Exceptions\InvalidInitialLevelException;
 use App\ValueObjects\Traits\GetIntValueTrait;
 
 final class EnhancementLevel
@@ -26,7 +27,7 @@ final class EnhancementLevel
     public function __construct(int $level)
     {
         if (! $this->validInitialLevel($level)) {
-            throw new InvalidInitialLevelException('Initial enhancement level is invalid.');
+            throw new InvalidInitialLevelException();
         }
 
         $this->value = $level;
@@ -39,7 +40,7 @@ final class EnhancementLevel
      */
     public function atMaximumLevel(): bool
     {
-        return $this->level === self::MAXIMUM_LEVEL;
+        return $this->value === self::MAXIMUM_LEVEL;
     }
 
     /**
@@ -49,7 +50,7 @@ final class EnhancementLevel
      */
     public function atMinimumLevel(): bool
     {
-        return $this->level === self::MINIMUM_LEVEL;
+        return $this->value === self::MINIMUM_LEVEL;
     }
 
     /**
@@ -72,6 +73,12 @@ final class EnhancementLevel
         return new self($this->previousLevel());
     }
 
+    /**************************
+     *
+     * private methods
+     *
+     **************************/
+
     /**
      * nextLevel
      *
@@ -79,11 +86,11 @@ final class EnhancementLevel
      */
     private function nextLevel(): int
     {
-        if ($this->level === self::MAXIMUM_LEVEL) {
+        if ($this->value === self::MAXIMUM_LEVEL) {
             return self::MAXIMUM_LEVEL;
         }
 
-        return $this->level + 1;
+        return $this->value + 1;
     }
 
     /**
@@ -93,11 +100,11 @@ final class EnhancementLevel
      */
     private function previousLevel(): int
     {
-        if ($this->level === self::MINIMUM_LEVEL) {
+        if ($this->value === self::MINIMUM_LEVEL) {
             return self::MINIMUM_LEVEL;
         }
 
-        return $this->level -1;
+        return $this->value - 1;
     }
 
     /**

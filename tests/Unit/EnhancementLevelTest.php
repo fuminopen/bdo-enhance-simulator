@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Exceptions\InvalidInitialLevelException;
 use App\ValueObjects\EnhancementLevel;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +23,7 @@ class EnhancementLevelTest extends TestCase
      */
     public function test_enhancement_level_cannot_be_lower_than_its_minimum_limit()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidInitialLevelException::class);
 
         new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL - 1);
     }
@@ -46,7 +47,7 @@ class EnhancementLevelTest extends TestCase
      */
     public function test_enhancement_level_cannot_be_higher_than_its_maximum_limit()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidInitialLevelException::class);
 
         new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL + 1);
     }
@@ -72,11 +73,11 @@ class EnhancementLevelTest extends TestCase
     {
         $minimumLevel = new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL);
 
-        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $minimumLevel->level);
+        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $minimumLevel->getValue());
 
         $maximumLevel = new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL);
 
-        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL, $maximumLevel->level);
+        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL, $maximumLevel->getValue());
     }
 
     /**
@@ -122,7 +123,7 @@ class EnhancementLevelTest extends TestCase
 
         $newLevel = $minimumLevel->levelUp();
 
-        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL + 1, $newLevel->level);
+        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL + 1, $newLevel->getValue());
     }
 
     /**
@@ -136,7 +137,7 @@ class EnhancementLevelTest extends TestCase
 
         $newLevel = $maximumLevel->levelUp();
 
-        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL, $newLevel->level);
+        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL, $newLevel->getValue());
     }
 
     /**
@@ -150,7 +151,7 @@ class EnhancementLevelTest extends TestCase
 
         $newLevel = $maximumLevel->levelDown();
 
-        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL - 1, $newLevel->level);
+        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL - 1, $newLevel->getValue());
     }
 
     /**
@@ -164,6 +165,6 @@ class EnhancementLevelTest extends TestCase
 
         $newLevel = $minimumLevel->levelDown();
 
-        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $newLevel->level);
+        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $newLevel->getValue());
     }
 }
