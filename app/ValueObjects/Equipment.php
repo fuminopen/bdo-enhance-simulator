@@ -2,64 +2,61 @@
 
 namespace App\ValueObjects;
 
-final class Equipment implements Enhanceable
+final class Equipment
 {
     /**
      * @var EnhancementLevel
      */
-    public readonly EnhancementLevel $currentLevel;
+    private readonly EnhancementLevel $currentLevel;
+
+    /**
+     * @var EnhancementLevel
+     */
+    private readonly EnhancementLevel $threshold;
 
     /**
      * __construct
      *
      * @param  EnhancementLevel $currentLevel
-     * @return void
      */
     public function __construct(
-        EnhancementLevel $level =
-            new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL)
+        EnhancementLevel $level,
+        EnhancementLevel $threshold
     ) {
         $this->currentLevel = $level;
     }
 
     /**
-     * // TODO
-     *
-     * @param
-     * @return
+     * @return EnhancementLevel
      */
     public function getCurrentLevel(): EnhancementLevel
     {
-        return new EnhancementLevel();
+        return $this->currentLevel;
     }
 
     /**
-     * // TODO
-     *
-     * @param
-     * @return
+     * @return EnhancementLevel
      */
     public function getThreshold(): EnhancementLevel
     {
-        return new EnhancementLevel();
+        return $this->threshold;
     }
 
     /**
      * enhance
      *
-     * @return Equipment
+     * @return self
      */
-    public function enhancementSucceed(): Enhanceable
+    public function enhancementSucceed(): self
     {
         if ($this->getCurrentLevel()->atMaximumLevel()) {
-            return $this;
+            throw new NoLongerEnhanceableException();
         }
 
-        $newLevel = new EnhancementLevel($this->getCurrentLevel()->level + 1);
-
-        $class = get_class($this);
-
-        return new $class($newLevel);
+        return new self(
+            $this->currentLevel->levelUp(),
+            $this->threshold
+        );
     }
 
     /**
@@ -69,7 +66,8 @@ final class Equipment implements Enhanceable
      */
     public function enhancementFailed(): Enhanceable
     {
-        if ($this->getCurrentLevel()->level <= $this->getThreshold()->level) {
+        if (
+            $this->getCurrentLevel()->level <= $this->getThreshold()->level) {
             return $this;
         }
 
