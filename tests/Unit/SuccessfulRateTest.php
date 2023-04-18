@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Exceptions\InvalidSuccessfulRateException;
 use App\ValueObjects\SuccessfulRate;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -22,22 +23,22 @@ class SuccessfulRateTest extends TestCase
         // ceil
         $rate = new SuccessfulRate(55.555);
 
-        $this->assertSame(55.56, $rate->percent);
+        $this->assertSame(55.56, $rate->getInPercent());
 
         // floor
         $rate = new SuccessfulRate(54.444);
 
-        $this->assertSame(54.44, $rate->percent);
+        $this->assertSame(54.44, $rate->getInPercent());
 
         // minimum
         $rate = new SuccessfulRate(0.011);
 
-        $this->assertSame(SuccessfulRate::MINIMUM_PERCENT, $rate->percent);
+        $this->assertSame(SuccessfulRate::MINIMUM_PERCENT, $rate->getInPercent());
 
         // maximum
         $rate = new SuccessfulRate(99.999);
 
-        $this->assertSame(SuccessfulRate::MAXIMUM_PERCENT, $rate->percent);
+        $this->assertSame(SuccessfulRate::MAXIMUM_PERCENT, $rate->getInPercent());
     }
 
     /**
@@ -48,22 +49,22 @@ class SuccessfulRateTest extends TestCase
         // ceil
         $rate = new SuccessfulRate(55.555);
 
-        $this->assertSame(0.5556, $rate->rate);
+        $this->assertSame(0.5556, $rate->getInRate());
 
         // floor
         $rate = new SuccessfulRate(54.444);
 
-        $this->assertSame(0.5444, $rate->rate);
+        $this->assertSame(0.5444, $rate->getInRate());
 
         // minimum
         $rate = new SuccessfulRate(0.011);
 
-        $this->assertSame(SuccessfulRate::MINIMUM_RATE, $rate->rate);
+        $this->assertSame(SuccessfulRate::MINIMUM_RATE, $rate->getInRate());
 
         // maximum
         $rate = new SuccessfulRate(99.999);
 
-        $this->assertSame(SuccessfulRate::MAXIMUM_RATE, $rate->rate);
+        $this->assertSame(SuccessfulRate::MAXIMUM_RATE, $rate->getInRate());
     }
 
     /**
@@ -73,7 +74,7 @@ class SuccessfulRateTest extends TestCase
      */
     public function test_rate_cannot_be_lower_than_minimum()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidSuccessfulRateException::class);
 
         new SuccessfulRate(SuccessfulRate::MINIMUM_PERCENT - 0.01);
     }
@@ -97,7 +98,7 @@ class SuccessfulRateTest extends TestCase
      */
     public function test_rate_cannot_exceeds_maximum()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidSuccessfulRateException::class);
 
         new SuccessfulRate(SuccessfulRate::MAXIMUM_PERCENT + 0.01);
     }

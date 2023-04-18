@@ -16,7 +16,7 @@ final class EnhancementLevel
     /**
      * @var int
      */
-    public readonly int $value;
+    private readonly int $value;
 
     /**
      * __construct

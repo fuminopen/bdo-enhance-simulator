@@ -15,7 +15,7 @@ final class FailStack
     /**
      * @var int
      */
-    public readonly int $value;
+    private readonly int $value;
 
     /**
      * __construct
