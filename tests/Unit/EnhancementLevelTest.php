@@ -25,7 +25,7 @@ class EnhancementLevelTest extends TestCase
     {
         $this->expectException(InvalidInitialLevelException::class);
 
-        new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL - 1);
+        new EnhancementLevel(-1);
     }
 
     /**
@@ -35,7 +35,7 @@ class EnhancementLevelTest extends TestCase
      */
     public function test_can_be_instantiated_with_minimum_level()
     {
-        new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL);
+        new EnhancementLevel(0);
 
         $this->assertTrue(true);
     }
@@ -49,122 +49,113 @@ class EnhancementLevelTest extends TestCase
     {
         $this->expectException(InvalidInitialLevelException::class);
 
-        new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL + 1);
+        new EnhancementLevel(21);
     }
 
     /**
      * TODO : 1
-     *
-     * @return void
      */
     public function test_can_be_instantiated_with_maximum_level()
     {
-        new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL);
+        new EnhancementLevel(20);
 
         $this->assertTrue(true);
     }
 
     /**
      * TODO : 2
-     *
-     * @return void
      */
     public function test_enhancement_level_class_can_output_its_level()
     {
-        $minimumLevel = new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL);
+        $minimumLevel = new EnhancementLevel(0);
 
-        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $minimumLevel->getValue());
+        $this->assertSame(0, $minimumLevel->getValue());
 
-        $maximumLevel = new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL);
+        $maximumLevel = new EnhancementLevel(20);
 
-        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL, $maximumLevel->getValue());
+        $this->assertSame(20, $maximumLevel->getValue());
     }
 
     /**
      * TODO : 3
-     *
-     * @return void
      */
     public function test_it_knows_if_itself_is_at_maximum_level()
     {
-        $maximumLevel = new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL);
+        $maximumLevel = new EnhancementLevel(20);
 
         $this->assertTrue($maximumLevel->atMaximumLevel());
 
-        $notMaximumLevel = new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL - 1);
+        $notMaximumLevel = new EnhancementLevel(19);
 
         $this->assertFalse($notMaximumLevel->atMaximumLevel());
     }
 
     /**
      * TODO : 3
-     *
-     * @return void
      */
     public function test_it_knows_if_itself_is_at_minimum_level()
     {
-        $minimumLevel = new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL);
+        $minimumLevel = new EnhancementLevel(0);
 
         $this->assertTrue($minimumLevel->atMinimumLevel());
 
-        $notMinimumLevel = new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL + 1);
+        $notMinimumLevel = new EnhancementLevel(1);
 
         $this->assertFalse($notMinimumLevel->atMinimumLevel());
     }
 
     /**
      * TODO : 4
-     *
-     * @return void
      */
     public function test_higher_level_instance_returned()
     {
-        $minimumLevel = new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL);
+        $minimumLevel = new EnhancementLevel(0);
 
         $newLevel = $minimumLevel->levelUp();
 
-        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL + 1, $newLevel->getValue());
+        $this->assertSame(1, $newLevel->getValue());
     }
 
     /**
      * TODO : 4
-     *
-     * @return void
      */
     public function test_maximum_level_no_longer_level_ups()
     {
-        $maximumLevel = new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL);
+        $maximumLevel = new EnhancementLevel(20);
 
         $newLevel = $maximumLevel->levelUp();
 
-        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL, $newLevel->getValue());
+        $this->assertSame(20, $newLevel->getValue());
     }
 
     /**
      * TODO : 4
-     *
-     * @return void
      */
     public function test_lower_level_instance_returned()
     {
-        $maximumLevel = new EnhancementLevel(EnhancementLevel::MAXIMUM_LEVEL);
+        $maximumLevel = new EnhancementLevel(20);
 
         $newLevel = $maximumLevel->levelDown();
 
-        $this->assertSame(EnhancementLevel::MAXIMUM_LEVEL - 1, $newLevel->getValue());
+        $this->assertSame(19, $newLevel->getValue());
     }
 
     /**
      * TODO : 4
-     *
-     * @return void
      */
     public function test_minimum_level_no_longer_level_downs()
     {
-        $minimumLevel = new EnhancementLevel(EnhancementLevel::MINIMUM_LEVEL);
+        $minimumLevel = new EnhancementLevel(0);
 
         $newLevel = $minimumLevel->levelDown();
 
-        $this->assertSame(EnhancementLevel::MINIMUM_LEVEL, $newLevel->getValue());
+        $this->assertSame(0, $newLevel->getValue());
+    }
+
+    public function test_minimum_level_instance_can_be_created()
+    {
+        $this->assertTrue(
+            EnhancementLevel::createMinimumLevel()->atMinimumLevel()
+        );
     }
 }

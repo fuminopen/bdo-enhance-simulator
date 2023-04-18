@@ -9,9 +9,9 @@ final class EnhancementLevel
 {
     use GetIntValueTrait;
 
-    public const MINIMUM_LEVEL = 0;
+    private const MINIMUM_LEVEL = 0;
 
-    public const MAXIMUM_LEVEL = 20;
+    private const MAXIMUM_LEVEL = 20;
 
     /**
      * @var int
@@ -31,6 +31,16 @@ final class EnhancementLevel
         }
 
         $this->value = $level;
+    }
+
+    /**
+     * create minimum level instance
+     *
+     * @return self
+     */
+    public static function createMinimumLevel(): self
+    {
+        return new self(self::MINIMUM_LEVEL);
     }
 
     /**
