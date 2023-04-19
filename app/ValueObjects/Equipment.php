@@ -2,6 +2,8 @@
 
 namespace App\ValueObjects;
 
+use App\Exceptions\NoLongerEnhanceableException;
+
 final class Equipment
 {
     /**
@@ -18,12 +20,14 @@ final class Equipment
      * __construct
      *
      * @param  EnhancementLevel $currentLevel
+     * @param  EnhancementLevel $threshold
      */
     public function __construct(
         EnhancementLevel $level,
         EnhancementLevel $threshold
     ) {
         $this->currentLevel = $level;
+        $this->threshold = $threshold;
     }
 
     /**
@@ -49,7 +53,7 @@ final class Equipment
      */
     public function enhancementSucceed(): self
     {
-        if ($this->getCurrentLevel()->atMaximumLevel()) {
+        if (! $this->enhanceable()) {
             throw new NoLongerEnhanceableException();
         }
 
@@ -62,19 +66,32 @@ final class Equipment
     /**
      * enhanceFailed
      *
-     * @return Equipment
+     * @return self
      */
-    public function enhancementFailed(): Enhanceable
+    public function enhancementFailed(): self
     {
-        if (
-            $this->getCurrentLevel()->level <= $this->getThreshold()->level) {
+        if (! $this->enhanceable()) {
+            throw new NoLongerEnhanceableException();
+        }
+
+        if ($this->getCurrentLevel()->getValue() <= $this->getThreshold()->getValue()) {
             return $this;
         }
 
-        $newLevel = new EnhancementLevel($this->getCurrentLevel()->levelDown()->level);
+        return new self(
+            $this->getCurrentLevel()->levelDown(),
+            $this->threshold
+        );
+    }
 
-        $class = get_class($this);
+    /**************************************************************
+    *
+    * private methods
+    *
+    **************************************************************/
 
-        return new $class($newLevel);
+    private function enhanceable(): bool
+    {
+        return ! $this->getCurrentLevel()->atMaximumLevel();
     }
 }
