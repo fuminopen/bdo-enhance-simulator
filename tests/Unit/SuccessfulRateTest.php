@@ -2,116 +2,76 @@
 
 namespace Tests\Unit;
 
-use App\Exceptions\InvalidSuccessfulRateException;
+use App\ValueObjects\EnhancementLevel;
+use App\ValueObjects\Equipment;
+use App\ValueObjects\FailStack;
 use App\ValueObjects\SuccessfulRate;
-use InvalidArgumentException;
+use App\ValueObjects\SuccessfulRateMapper;
+use App\ValueObjects\Weapon;
 use PHPUnit\Framework\TestCase;
 
 /**
- * 1. successful rate has percent property between 0.01% to 100.00% with second decimal place
- * 2. successful rate has rate property between 0.0001 to 1.0000 with fourth decimal place
- * 3. minimum is 0.01
- * 4. maximum is 100.00
+ * 2. successful rate increases along with stack increases
+ * 3. at some point, increase rate of successful rate significantly drops
  */
 class SuccessfulRateTest extends TestCase
 {
     /**
-     * TODO : 1
-     */
-    public function test_percent_is_float_with_second_decimal_place()
-    {
-        // ceil
-        $rate = new SuccessfulRate(55.555);
-
-        $this->assertSame(55.56, $rate->getInPercent());
-
-        // floor
-        $rate = new SuccessfulRate(54.444);
-
-        $this->assertSame(54.44, $rate->getInPercent());
-
-        // minimum
-        $rate = new SuccessfulRate(0.011);
-
-        $this->assertSame(SuccessfulRate::MINIMUM_PERCENT, $rate->getInPercent());
-
-        // maximum
-        $rate = new SuccessfulRate(99.999);
-
-        $this->assertSame(SuccessfulRate::MAXIMUM_PERCENT, $rate->getInPercent());
-    }
-
-    /**
-     * TODO : 2
-     */
-    public function test_rate_is_float_with_fourth_decimal_place()
-    {
-        // ceil
-        $rate = new SuccessfulRate(55.555);
-
-        $this->assertSame(0.5556, $rate->getInRate());
-
-        // floor
-        $rate = new SuccessfulRate(54.444);
-
-        $this->assertSame(0.5444, $rate->getInRate());
-
-        // minimum
-        $rate = new SuccessfulRate(0.011);
-
-        $this->assertSame(SuccessfulRate::MINIMUM_RATE, $rate->getInRate());
-
-        // maximum
-        $rate = new SuccessfulRate(99.999);
-
-        $this->assertSame(SuccessfulRate::MAXIMUM_RATE, $rate->getInRate());
-    }
-
-    /**
-     * TODO : 3
+     * TODO 1
      *
      * @return void
      */
-    public function test_rate_cannot_be_lower_than_minimum()
+    public function test_successful_rate_starts_dropping_after_threshold()
     {
-        $this->expectException(InvalidSuccessfulRateException::class);
+        // instantiate an equipment with level which successful rate starts dropping
+        $equipmentBeyondThreshold = new Equipment(new EnhancementLevel(Weapon::THRESHOLD));
 
-        new SuccessfulRate(SuccessfulRate::MINIMUM_PERCENT - 0.01);
+        $mapper = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack());
+
+        $this->assertTrue(SuccessfulRate::MAXIMUM_RATE > $mapper->getRate());
     }
 
     /**
-     * TODO : 3
+     * TODO 2
      *
      * @return void
      */
-    public function test_rate_can_be_instantiated_with_minimum()
+    public function test_successful_rate_increases_along_with_fail_stack()
     {
-        new SuccessfulRate(SuccessfulRate::MINIMUM_PERCENT);
+        // instantiate an equipment with level which successful rate is not 100%
+        $equipmentBeyondThreshold = new Equipment(new EnhancementLevel(Weapon::THRESHOLD));
 
-        $this->assertTrue(true);
+        $mapperWithNoStack = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack());
+
+        $mapperWithFS1 = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack(1));
+
+        $this->assertTrue($mapperWithNoStack->getRate() < $mapperWithFS1->getRate());
     }
 
     /**
-     * TODO : 4
-     *
-     * @return void
+     * TODO 3
      */
-    public function test_rate_cannot_exceeds_maximum()
+    public function test_increase_rate_slows_down_after_certain_fail_stack()
     {
-        $this->expectException(InvalidSuccessfulRateException::class);
+        $level = 9;
 
-        new SuccessfulRate(SuccessfulRate::MAXIMUM_PERCENT + 0.01);
-    }
+        $interval = SuccessfulRateMapper::MAP[$level]['interval'];
+        $droppedInterval = SuccessfulRateMapper::MAP[$level]['dropped_interval'];
 
-    /**
-     * TODO : 4
-     *
-     * @return void
-     */
-    public function test_rate_can_be_instantiated_with_maximum()
-    {
-        new SuccessfulRate(SuccessfulRate::MAXIMUM_PERCENT);
+        // instantiate an equipment with level which successful rate is not 100%
+        $equipmentBeyondThreshold = new Equipment(new EnhancementLevel($level));
 
-        $this->assertTrue(true);
+        for ($stack = 0; $stack <= 30; $stack++) {
+            $current = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack($stack));
+            $next = new SuccessfulRateMapper($equipmentBeyondThreshold, new FailStack($stack + 1));
+
+            $diff = $next->getRate() - $current->getRate();
+
+            if ($current->getRate() < 0.7000) {
+                $this->assertSame($interval, $diff);
+            } else {
+                $this->assertSame($droppedInterval, $diff);
+            }
+        }
     }
 }

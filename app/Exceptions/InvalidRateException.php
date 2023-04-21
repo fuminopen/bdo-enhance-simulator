@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-final class InvalidSuccessfulRateException extends Exception
+final class InvalidRateException extends Exception
 {
     public function __construct()
     {

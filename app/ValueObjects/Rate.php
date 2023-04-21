@@ -2,9 +2,9 @@
 
 namespace App\ValueObjects;
 
-use App\Exceptions\InvalidSuccessfulRateException;
+use App\Exceptions\InvalidRateException;
 
-final class SuccessfulRate
+final class Rate
 {
     public const MINIMUM_PERCENT = 0.01;
 
@@ -33,7 +33,7 @@ final class SuccessfulRate
     public function __construct(float $percent)
     {
         if ($this->assertInvalidRate($percent)) {
-            throw new InvalidSuccessfulRateException();
+            throw new InvalidRateException();
         }
 
         $this->percent = $this->formatPercent($percent);
