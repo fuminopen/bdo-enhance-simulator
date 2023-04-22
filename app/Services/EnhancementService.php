@@ -2,18 +2,19 @@
 
 namespace App\Services;
 
-use App\ValueObjects\Enhanceable;
+use App\ValueObjects\Equipment;
 use App\ValueObjects\FailStack;
 use App\ValueObjects\SuccessfulRateMapper;
+use App\ValueObjects\SuccessfulRatePattern;
 
 final class EnhancementService
 {
     /**
      * // TODO mutable
      *
-     * @var Enhanceable|null
+     * @var Equipment|null
      */
-    private ?Enhanceable $equipment;
+    private ?Equipment $equipment;
 
     /**
      * // TODO mutable
@@ -69,10 +70,10 @@ final class EnhancementService
     /**
      * setEquipment
      *
-     * @param  Enhanceable
+     * @param  Equipment
      * @return self
      */
-    public function setEquipment(Enhanceable $equipment): self
+    public function setEquipment(Equipment $equipment): self
     {
         $this->equipment = $equipment;
 
@@ -82,9 +83,9 @@ final class EnhancementService
     /**
      * currentEquipment
      *
-     * @return Enhanceable|null
+     * @return Equipment|null
      */
-    public function currentEquipment(): ?Enhanceable
+    public function currentEquipment(): ?Equipment
     {
         return $this->equipment;
     }
@@ -120,11 +121,9 @@ final class EnhancementService
     {
         $rand = random_int(1, 10000) / 10000;
 
-        $successfulRateMapper = new SuccessfulRateMapper($this->equipment, $this->failStack);
+        $successfulRate = $this->equipment->getSuccessfulRatePattern();
 
-        $rate = $successfulRateMapper->getRate();
-
-        if ($rate >= $rand) {
+        if ($successfulRate->getRate($this->failStack) >= $rand) {
             $this->equipment = $this->equipment->enhancementSucceed($this->equipment);
             return true;
         }

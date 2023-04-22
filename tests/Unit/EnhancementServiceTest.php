@@ -6,7 +6,6 @@ use App\Services\EnhancementService;
 use App\ValueObjects\EnhancementLevel;
 use App\ValueObjects\Equipment;
 use App\ValueObjects\FailStack;
-use App\ValueObjects\Weapon;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -59,15 +58,15 @@ class EnhancementServiceTest extends TestCase
      */
     public function test_equipment_can_be_set()
     {
-        $level = 7;
-
         $service = new EnhancementService();
 
-        $equipment = new Equipment(new EnhancementLevel($level));
+        $equipment = $this->createMock(Equipment::class);
+        $equipment->method('getCurrentLevel')
+            ->willReturn(new EnhancementLevel(7));
 
         $service->setEquipment($equipment);
 
-        $this->assertSame($level, $service->currentEquipment()?->currentLevel->level);
+        $this->assertSame(7, $service->currentEquipment()->getCurrentLevel()->getValue());
     }
 
     /**
@@ -77,7 +76,9 @@ class EnhancementServiceTest extends TestCase
     {
         $service = new EnhancementService();
 
-        $service->setEquipment(new Equipment());
+        $service->setEquipment(
+            $this->createMock(Equipment::class)
+        );
 
         $this->assertNotNull($service->currentEquipment());
 
@@ -95,7 +96,9 @@ class EnhancementServiceTest extends TestCase
 
         $this->assertFalse($service->readyToEnhance());
 
-        $service->setEquipment(new Equipment());
+        $service->setEquipment(
+            $this->createMock(Equipment::class)
+        );
 
         $this->assertTrue($service->readyToEnhance());
 
@@ -109,13 +112,19 @@ class EnhancementServiceTest extends TestCase
      */
     public function test_enhancement_working()
     {
-        $baseLevel = EnhancementLevel::MINIMUM_LEVEL + 1;
-
         $service = new EnhancementService();
 
-        $service->setEquipment(new Equipment(new EnhancementLevel($baseLevel)));
+        $level = $this->createMock(EnhancementLevel::class);
+        $level->method('getValue')
+            ->willReturn(3);
 
-        $this->assertSame($baseLevel, $service->currentEquipment()?->getCurrentLevel()->level);
+        $equipment = $this->createMock(Equipment::class);
+        $equipment->method('getCurrentLevel')
+            ->willReturn($level);
+
+        $service->setEquipment($equipment);
+
+        $this->assertSame(3, $service->currentEquipment()->getCurrentLevel()->getValue());
 
         $succeed = $service->enhance();
 
