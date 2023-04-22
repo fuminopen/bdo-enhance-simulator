@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Exceptions\InvalidRateException;
+use App\ValueObjects\FailStack;
 use App\ValueObjects\Rate;
 use PHPUnit\Framework\TestCase;
 
@@ -112,5 +113,35 @@ class RateTest extends TestCase
         new Rate(Rate::MAXIMUM_PERCENT);
 
         $this->assertTrue(true);
+    }
+
+    public function test_addition()
+    {
+        $base = new Rate(1.00);
+
+        $four = $base->add(
+            new Rate(3.00)
+        );
+
+        $this->assertSame(
+            4.00,
+            $four->getInPercent()
+        );
+    }
+
+    public function test_multiplication()
+    {
+        $interval = new Rate(3.00);
+
+        $stack = $this->createMock(FailStack::class);
+        $stack->method('getValue')
+            ->willReturn(4);
+
+        $twelve = $interval->times($stack);
+
+        $this->assertSame(
+            12.00,
+            $twelve->getInPercent()
+        );
     }
 }

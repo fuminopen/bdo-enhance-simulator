@@ -34,7 +34,7 @@ final class SuccessfulRatePattern
     /**
      * getRate
      *
-     * @return float
+     * @return Rate
      */
     public function getRate(FailStack $failStack): Rate
     {
