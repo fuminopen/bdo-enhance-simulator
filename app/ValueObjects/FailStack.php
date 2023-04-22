@@ -32,6 +32,32 @@ final class FailStack
         $this->value = $stack;
     }
 
+    /**
+     * subtraction
+     *
+     * @param  self $subtrahend
+     * @return self
+     */
+    public function sub(FailStack $subtrahend): self
+    {
+        if (($this->value - $subtrahend->getValue()) < self::MINIMUM) {
+            return new self(self::MINIMUM);
+        }
+
+        return new self($this->value - $subtrahend->getValue());
+    }
+
+    /**
+     * greater than
+     *
+     * @param  FailStack $subject
+     * @return bool
+     */
+    public function gt(FailStack $subject): bool
+    {
+        return $this->value > $subject->getValue();
+    }
+
     /**************************
      *
      * private methods

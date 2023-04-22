@@ -39,4 +39,27 @@ class FailStackTest extends TestCase
 
         new FailStack(1.01);
     }
+
+    public function test_subtraction()
+    {
+        $base = new FailStack(4);
+
+        $this->assertSame(
+            2,
+            $base->sub(new FailStack(2))->getValue()
+        );
+    }
+
+    public function test_greater_than()
+    {
+        $base = new FailStack(4);
+
+        $this->assertTrue(
+            $base->gt(new FailStack(3))
+        );
+
+        $this->assertFalse(
+            $base->gt(new FailStack(4))
+        );
+    }
 }

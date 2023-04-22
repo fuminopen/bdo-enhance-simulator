@@ -31,7 +31,7 @@ class RateTest extends TestCase
         $this->assertSame(54.44, $rate->getInPercent());
 
         // minimum
-        $rate = new Rate(0.011);
+        $rate = new Rate(0.001);
 
         $this->assertSame(Rate::MINIMUM_PERCENT, $rate->getInPercent());
 
@@ -47,22 +47,22 @@ class RateTest extends TestCase
     public function test_rate_is_float_with_fourth_decimal_place()
     {
         // ceil
-        $rate = new Rate(55.555);
+        $rate = new Rate(55.55556);
 
         $this->assertSame(0.5556, $rate->getInRate());
 
         // floor
-        $rate = new Rate(54.444);
+        $rate = new Rate(54.44444);
 
         $this->assertSame(0.5444, $rate->getInRate());
 
         // minimum
-        $rate = new Rate(0.011);
+        $rate = new Rate(0.00001);
 
         $this->assertSame(Rate::MINIMUM_RATE, $rate->getInRate());
 
         // maximum
-        $rate = new Rate(99.999);
+        $rate = new Rate(99.99999);
 
         $this->assertSame(Rate::MAXIMUM_RATE, $rate->getInRate());
     }

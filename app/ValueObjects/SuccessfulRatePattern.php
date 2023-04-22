@@ -38,16 +38,29 @@ final class SuccessfulRatePattern
      */
     public function getRate(FailStack $failStack): Rate
     {
-        $stackThreshold = $this->softCap->getInRate() / $this->interval->getInRate();
+        $stackThreshold = new FailStack(
+            (int) (
+                ($this->softCap->getInPercent() - $this->baseRate->getInPercent())
+                / $this->interval->getInPercent()
+            )
+        );
 
         // if simply adding interval * fail stack to base rate
         // doesn't go beyond threshold, then returns it
-        if ($stackThreshold > $failStack->getValue()) {
+        if ($stackThreshold->gt($failStack)) {
             return $this->baseRate->add(
                 $this->interval->times($failStack)
             );
         }
 
-        //
+        $afterSoftCapStack = $failStack->sub($stackThreshold);
+
+        $rate = $this->baseRate->add(
+            $this->interval->times($stackThreshold)
+        );
+
+        return $rate->add(
+            $this->afterSoftCap->times($afterSoftCapStack)
+        );
     }
 }
