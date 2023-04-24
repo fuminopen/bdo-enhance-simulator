@@ -17,6 +17,11 @@ final class Equipment
     private readonly EnhancementLevel $threshold;
 
     /**
+     * @var SuccessfulRatePattern
+     */
+    private readonly SuccessfulRatePattern $successfulRatePattern;
+
+    /**
      * __construct
      *
      * @param  EnhancementLevel $currentLevel
@@ -24,10 +29,12 @@ final class Equipment
      */
     public function __construct(
         EnhancementLevel $level,
-        EnhancementLevel $threshold
+        EnhancementLevel $threshold,
+        SuccessfulRatePattern $successfulRatePattern
     ) {
         $this->currentLevel = $level;
         $this->threshold = $threshold;
+        $this->successfulRatePattern = $successfulRatePattern;
     }
 
     /**
@@ -47,6 +54,16 @@ final class Equipment
     }
 
     /**
+     * @return SuccessfulRatePattern
+     *
+     * @author Fumitada Noshita <fumitada-noshita@se-ec.co.jp>
+     */
+    public function getSuccessfulRatePattern(): SuccessfulRatePattern
+    {
+        return $this->successfulRatePattern;
+    }
+
+    /**
      * enhance
      *
      * @return self
@@ -59,7 +76,8 @@ final class Equipment
 
         return new self(
             $this->currentLevel->levelUp(),
-            $this->threshold
+            $this->threshold,
+            $this->successfulRatePattern
         );
     }
 
@@ -80,7 +98,8 @@ final class Equipment
 
         return new self(
             $this->getCurrentLevel()->levelDown(),
-            $this->threshold
+            $this->threshold,
+            $this->successfulRatePattern
         );
     }
 

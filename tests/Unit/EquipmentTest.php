@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Exceptions\NoLongerEnhanceableException;
 use App\ValueObjects\EnhancementLevel;
 use App\ValueObjects\Equipment;
+use App\ValueObjects\SuccessfulRatePattern;
 use PHPUnit\Framework\TestCase;
 
 final class EquipmentTest extends TestCase
@@ -16,7 +17,8 @@ final class EquipmentTest extends TestCase
     {
         $equipment = new Equipment(
             new EnhancementLevel($level),
-            new EnhancementLevel(0)
+            new EnhancementLevel(0),
+            $this->createMock(SuccessfulRatePattern::class)
         );
 
         $this->assertSame(
@@ -32,7 +34,8 @@ final class EquipmentTest extends TestCase
     {
         $equipment = new Equipment(
             new EnhancementLevel(0),
-            new EnhancementLevel($level)
+            new EnhancementLevel($level),
+            $this->createMock(SuccessfulRatePattern::class)
         );
 
         $this->assertSame(
@@ -45,7 +48,8 @@ final class EquipmentTest extends TestCase
     {
         $equipment = new Equipment(
             new EnhancementLevel(8),
-            new EnhancementLevel(0)
+            new EnhancementLevel(0),
+            $this->createMock(SuccessfulRatePattern::class)
         );
 
         $up = $equipment->enhancementSucceed();
@@ -64,7 +68,8 @@ final class EquipmentTest extends TestCase
 
         $equipment = new Equipment(
             $maxLevel,
-            new EnhancementLevel(0)
+            new EnhancementLevel(0),
+            $this->createMock(SuccessfulRatePattern::class)
         );
 
         $this->expectException(NoLongerEnhanceableException::class);
@@ -80,7 +85,8 @@ final class EquipmentTest extends TestCase
 
         $equipment = new Equipment(
             $maxLevel,
-            new EnhancementLevel(0)
+            new EnhancementLevel(0),
+            $this->createMock(SuccessfulRatePattern::class)
         );
 
         $this->expectException(NoLongerEnhanceableException::class);
@@ -97,7 +103,8 @@ final class EquipmentTest extends TestCase
     ) {
         $equipment = new Equipment(
             new EnhancementLevel($level),
-            new EnhancementLevel($threshold)
+            new EnhancementLevel($threshold),
+            $this->createMock(SuccessfulRatePattern::class)
         );
 
         $this->assertSame(
@@ -115,7 +122,8 @@ final class EquipmentTest extends TestCase
     ) {
         $equipment = new Equipment(
             new EnhancementLevel($level),
-            new EnhancementLevel($threshold)
+            new EnhancementLevel($threshold),
+            $this->createMock(SuccessfulRatePattern::class)
         );
 
         $this->assertSame(
