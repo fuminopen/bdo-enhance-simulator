@@ -4,8 +4,7 @@ namespace App\Services;
 
 use App\ValueObjects\Equipment;
 use App\ValueObjects\FailStack;
-use App\ValueObjects\SuccessfulRateMapper;
-use App\ValueObjects\SuccessfulRatePattern;
+use App\ValueObjects\Rate;
 
 final class EnhancementService
 {
@@ -119,16 +118,20 @@ final class EnhancementService
      */
     public function enhance(): bool
     {
-        $rand = random_int(1, 10000) / 10000;
+        $random = Rate::generateRandomRate();
 
         $successfulRate = $this->equipment->getSuccessfulRatePattern();
 
-        if ($successfulRate->getRate($this->failStack) >= $rand) {
+        if ($successfulRate->getRate($this->failStack)->lte($random)) {
             $this->equipment = $this->equipment->enhancementSucceed($this->equipment);
+            $this->failStack = new FailStack();
             return true;
         }
 
         $this->equipment = $this->equipment->enhancementFailed();
+
+        // TODO: add fail stack
+
         return false;
     }
 }

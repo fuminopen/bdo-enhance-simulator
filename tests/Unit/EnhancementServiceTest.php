@@ -6,6 +6,8 @@ use App\Services\EnhancementService;
 use App\ValueObjects\EnhancementLevel;
 use App\ValueObjects\Equipment;
 use App\ValueObjects\FailStack;
+use App\ValueObjects\Rate;
+use App\ValueObjects\SuccessfulRatePattern;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -110,17 +112,20 @@ class EnhancementServiceTest extends TestCase
     /**
      * TODO 6
      */
-    public function test_enhancement_working()
+    public function test_enhancement_succeeds_with_equipment_level_up()
     {
         $service = new EnhancementService();
 
         $level = $this->createMock(EnhancementLevel::class);
-        $level->method('getValue')
-            ->willReturn(3);
+        $level->method('getValue')->willReturn(3);
+
+        $pattern = $this->createMock(SuccessfulRatePattern::class);
+        // enhancement will succeed
+        $pattern->method('getRate')->willReturn(new Rate(100.00));
 
         $equipment = $this->createMock(Equipment::class);
-        $equipment->method('getCurrentLevel')
-            ->willReturn($level);
+        $equipment->method('getCurrentLevel')->willReturn($level);
+        $equipment->method('getSuccessfulRatePattern')->willReturn($pattern);
 
         $service->setEquipment($equipment);
 
@@ -128,10 +133,12 @@ class EnhancementServiceTest extends TestCase
 
         $succeed = $service->enhance();
 
-        $level = ($succeed)
-            ? $baseLevel + 1
-            : $baseLevel - 1;
+        $this->assertTrue($succeed);
 
-        $this->assertSame($level, $service->currentEquipment()->getCurrentLevel()->level);
+        $this->assertSame(
+            // 3 + 1 = 4
+            4,
+            $service->currentEquipment()->getCurrentLevel()->getValue()
+        );
     }
 }
