@@ -2,17 +2,33 @@
 
 namespace App\Services;
 
-class Scenario
-{
-    public $baseLevel;
-    public $targetLevel;
-    public $purchaseCost;
-    public $salePrice;
+use App\Models\Equipment;
 
-    public function __construct($baseLevel, $targetLevel, $purchaseCost, $salePrice) {
-        $this->baseLevel = $baseLevel;
-        $this->targetLevel = $targetLevel;
-        $this->purchaseCost = $purchaseCost;
-        $this->salePrice = $salePrice;
+final class Scenario
+{
+    public function __construct(
+        private readonly Equipment $baseEquipment,
+        private readonly Equipment $targetEquipment,
+    ) {
+    }
+
+    public function getBaseLevel(): int
+    {
+        return $this->baseEquipment->getLevel();
+    }
+
+    public function getTargetLevel(): int
+    {
+        return $this->targetEquipment->getLevel();
+    }
+
+    public function getPurchaseCost(): int
+    {
+        return $this->baseEquipment->getPurchasePrice();
+    }
+
+    public function getSalePrice(): int
+    {
+        return $this->targetEquipment->getSalePrice();
     }
 }
