@@ -3,12 +3,37 @@
 namespace App\Models;
 
 use App\Exceptions\NoLongerEnhanceableException;
+use App\ValueObjects\EnhancementLevel;
+use App\ValueObjects\SuccessfulRatePattern;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Equipment extends Model
 {
     use HasFactory;
+
+    /**************************
+     *
+     * relations
+     *
+     **************************/
+
+    public function equipmentType(): BelongsTo
+    {
+        return $this->belongsTo(EquipmentType::class);
+    }
+
+    public function enhancementResourceCombinations(): BelongsTo
+    {
+        return $this->belongsTo(EnhancementResourceCombination::class);
+    }
+
+    /**************************
+     *
+     * methods
+     *
+     **************************/
 
     public function getPurchasePrice(): int
     {
@@ -22,17 +47,17 @@ class Equipment extends Model
 
     public function getCurrentLevel(): EnhancementLevel
     {
-        return $this->current_level;
+        return new EnhancementLevel($this->current_level);
     }
 
     public function getThreshold(): EnhancementLevel
     {
-        return $this->threshold;
+        return $this->equipmentType->getThreshold();
     }
 
     public function getSuccessfulRatePattern(): SuccessfulRatePattern
     {
-        return $this->successfulRatePattern;
+        return $this->equipmentType->getSuccessfulRatePattern();
     }
 
     public function enhancementSucceed(): self
@@ -59,9 +84,9 @@ class Equipment extends Model
         }
 
         return new self(
-            $this->getCurrentLevel()->levelDown(),
-            $this->threshold,
-            $this->successfulRatePattern
+            [
+                'level' => $this->getCurrentLevel()->levelDown()->getValue(),
+            ]
         );
     }
 
@@ -73,6 +98,6 @@ class Equipment extends Model
 
     private function enhanceable(): bool
     {
-        return ! $this->getCurrentLevel()->atMaximumLevel();
+        return ! $this->getCurrentLevel()->atMaximumLevel() && !is_null($this->enhancementResourceCombination);
     }
 }
