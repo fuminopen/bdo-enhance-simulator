@@ -33,6 +33,17 @@ final class FailStack
     }
 
     /**
+     * addition
+     *
+     * @param  self $subtrahend
+     * @return self
+     */
+    public function add(FailStack $addend): self
+    {
+        return new self($this->value + $addend->getValue());
+    }
+
+    /**
      * subtraction
      *
      * @param  self $subtrahend

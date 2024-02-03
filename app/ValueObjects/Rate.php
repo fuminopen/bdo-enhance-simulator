@@ -40,6 +40,13 @@ final class Rate
         $this->rate = $this->formatRate($percent);
     }
 
+    public static function generateRandomRate(): self
+    {
+        $rate = random_int(1, 10000);
+
+        return new self($rate / 100);
+    }
+
     /**
      * @return float
      */

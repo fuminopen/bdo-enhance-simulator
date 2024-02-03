@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\EnhancementResource;
 use App\Models\Equipment;
 use App\ValueObjects\FailStack;
-use App\ValueObjects\Rate;
 
 final class EnhancementService
 {
@@ -84,20 +83,14 @@ final class EnhancementService
 
     public function enhance(): bool
     {
-        $random = Rate::generateRandomRate();
+        $result = $this->equipment->enhance($this->failStack);
 
-        $successfulRate = $this->equipment->getSuccessfulRatePattern();
+        $result
+            ? $this->failStack = new FailStack()
+            : $this->failStack->add($this->equipment->stackAddedForFailure());
 
-        if ($successfulRate->getRate($this->failStack)->lte($random)) {
-            $this->equipment = $this->equipment->enhancementSucceed($this->equipment);
-            $this->failStack = new FailStack();
-            return true;
-        }
+        $this->enhancementResource = null;
 
-        $this->equipment = $this->equipment->enhancementFailed();
-
-        // TODO: add fail stack
-
-        return false;
+        return $result;
     }
 }
