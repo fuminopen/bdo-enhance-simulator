@@ -2,41 +2,24 @@
 
 namespace App\Services;
 
-use App\ValueObjects\Equipment;
+use App\Models\EnhancementResource;
+use App\Models\Equipment;
 use App\ValueObjects\FailStack;
 use App\ValueObjects\Rate;
 
 final class EnhancementService
 {
-    /**
-     * // TODO mutable
-     *
-     * @var Equipment|null
-     */
     private ?Equipment $equipment;
 
-    /**
-     * // TODO mutable
-     *
-     * @var FailStack
-     */
     private FailStack $failStack;
 
-    /**
-     * Enhancement always starts with no equipment and fail stack count at 0
-     */
+    private ?EnhancementResource $enhancementResource;
+
     public function __construct()
     {
-        $this->equipment = null;
         $this->failStack = new FailStack();
     }
 
-    /**
-     * setFailStack
-     *
-     * @param  FailStack $stackCount
-     * @return self
-     */
     public function setFailStack(FailStack $stack): self
     {
         $this->failStack = $stack;
@@ -44,21 +27,11 @@ final class EnhancementService
         return $this;
     }
 
-    /**
-     * currentStack
-     *
-     * @return FailStack
-     */
-    public function getCurrentStack(): FailStack
+    public function currentStack(): FailStack
     {
         return $this->failStack;
     }
 
-    /**
-     * removeFailStack
-     *
-     * @return self
-     */
     public function unsetFailStack(): self
     {
         $this->failStack = new FailStack();
@@ -66,12 +39,6 @@ final class EnhancementService
         return $this;
     }
 
-    /**
-     * setEquipment
-     *
-     * @param  Equipment
-     * @return self
-     */
     public function setEquipment(Equipment $equipment): self
     {
         $this->equipment = $equipment;
@@ -79,21 +46,11 @@ final class EnhancementService
         return $this;
     }
 
-    /**
-     * currentEquipment
-     *
-     * @return Equipment|null
-     */
     public function currentEquipment(): ?Equipment
     {
         return $this->equipment;
     }
 
-    /**
-     * unsetEquipment
-     *
-     * @return self
-     */
     public function unsetEquipment(): self
     {
         $this->equipment = null;
@@ -101,21 +58,30 @@ final class EnhancementService
         return $this;
     }
 
-    /**
-     * readyToEnhance
-     *
-     * @return bool
-     */
+    public function setEnhancementResource(EnhancementResource $resource): self
+    {
+        $this->enhancementResource = $resource;
+
+        return $this;
+    }
+
+    public function currentEnhancementResource(): EnhancementResource
+    {
+        return $this->enhancementResource;
+    }
+
+    public function unsetEnhancementResource(): self
+    {
+        $this->enhancementResource = null;
+
+        return $this;
+    }
+
     public function readyToEnhance(): bool
     {
         return !is_null($this->equipment);
     }
 
-    /**
-     * enhance
-     *
-     * @return bool
-     */
     public function enhance(): bool
     {
         $random = Rate::generateRandomRate();
